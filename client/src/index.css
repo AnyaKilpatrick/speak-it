@@ -1,0 +1,14 @@
+/* body {
+    /* background-image: url(Image); */
+    /* background-size: 1200px 900px;
+    background-repeat: no-repeat;
+    background-position: center -80px; */
+/* } */ 
+body {
+    margin:0;
+}
+
+#root {
+    min-height: 100vh;
+}
+

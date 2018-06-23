@@ -1,9 +1,9 @@
 const router = require("express").Router();
-// const articleController = require("../../controllers/articleController");
+const userController = require("../../controllers/userController");
 
 
-// router.route("/")
-// .post(articleController.create)
+router.route("/")
+.post(userController.create)
 // .get(articleController.findArticles)
 
 // router.route("/:id")
