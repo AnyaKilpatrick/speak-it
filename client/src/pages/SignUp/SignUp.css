@@ -1,0 +1,5 @@
+#wrapper {
+    min-height: 100vh;
+    background-size:cover;
+    background-image: url("./travel2.jpg");
+}

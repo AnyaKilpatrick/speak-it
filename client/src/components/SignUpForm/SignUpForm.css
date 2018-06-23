@@ -1,0 +1,12 @@
+#form{
+    /* background: rgb(230, 230, 230); */
+    color: rgba(17, 16, 16, 0.712);
+    /* color:rgba(69, 29, 82, 0.3); */
+    font-family: 'Cabin Sketch', cursive;
+    background-image: url("./paper.jpg");
+    margin-top:100px;
+    border-radius:30px;
+    box-shadow:3px 9px 10px 5px #00000077, 5px 12px 15px 7px #0000006e;
+    /* width:70vw; */
+    /* padding:20px 20px 20px 20px */
+}
