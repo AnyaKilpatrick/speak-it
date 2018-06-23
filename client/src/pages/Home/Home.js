@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import Header from "./../../components/Header";
 import Form from "./../../components/Form";
 import API from "./../../utils/API";
 import { Link } from "react-router-dom";
-
-
+import "./Home.css";
 class Home extends Component {
   // Setting the initial values of this.state.topic, this.state.startYear and this.endYear
   state = {
@@ -31,10 +29,7 @@ class Home extends Component {
 
     render(){
     return (
-         <div>
-            <Header/>
-            <Form/>
-        </div>
+        <p>Hello</p>
         )
     }
 };
