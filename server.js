@@ -1,9 +1,25 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const routes = require("./routes");
+// const routes = require("./routes")(app, passport);
+
+// const routes = require("./routes");
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+
+//setting up Passport
+const passport = require("passport");
+const flash = require("connect-flash");
+const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+
+// const configDB = require("./config/database.js");
+
+
+
+require("./config/passport")(passport); //pass passport for configuration
 
 // Define middleware here
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -13,12 +29,21 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
   // app.use("*", express.static("client/build"));
 }
-// Add routes, both API and view
-app.use(routes);
+app.use(morgan("dev")); //log every request to the console
+app.use(cookieParser()); // read cookies (for auth)
+
+// app.set("view engine", "ejs"); //set up ejs for templating
+
+app.use(session({ secret: "ilovescotchscotchyscotchscotch"})); //session secret
+app.use(passport.initialize());
+app.use(passport.session()); //persistent login sessions
+app.use(flash());
 
 // Connect to the Mongo DB
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/speak-it-db");
-
+// Add routes, both API and view
+// app.use(routes);
+require("./routes")(app, passport);
 // Start the API server
 app.listen(PORT, function() {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
