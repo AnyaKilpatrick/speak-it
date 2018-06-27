@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import "./LoginInput.css";
+import API from "./../../utils/API";
+import { Redirect } from "react-router-dom";
 
 //username input compenents
 import TextField from '@material-ui/core/TextField';
@@ -33,6 +35,7 @@ class LoginInput extends Component {
       password: "",
       username:"",
       showPassword: false,
+      redirectTo: null
     };
 
     handleChange = event => {
@@ -55,7 +58,26 @@ class LoginInput extends Component {
     this.setState({ showPassword: !this.state.showPassword });
     };
 
+    loginUser = () => {
+        const {username, password} = this.state;
+        const userObject = {username, password};
+        API.loginUser(userObject)
+            .then(res=>{
+                console.log("login response " + JSON.stringify(res));
+                if(res.data === "OK") {
+                    console.log("server return OK status, because this username doesn't exist or password was wrong")
+                }else{
+                    console.log("seems like this username and password match!yay!")
+                    this.setState({redirectTo: "/app/profile"});
+                }
+            })
+            .catch(err=> console.log(err))
+    };
+
     render(){
+        if (this.state.redirectTo) {
+			return <Redirect to={{ pathname: this.state.redirectTo }} />
+		}
         return (
             <div>
                 <Grid container direction="row" alignItems="center" justify="center">
@@ -93,10 +115,10 @@ class LoginInput extends Component {
                     </Grid>
                 </Grid>
                 <Grid container direction="row" alignItems="center" justify="center">
-                    <Button href="#text-buttons" className={this.props.classes.loginBtn}>
+                    <Button href="#text-buttons" className={this.props.classes.loginBtn} onClick={this.loginUser}>
                         Log In
                     </Button>
-                    <Button href="/signup" className={this.props.classes.loginBtn}>
+                    <Button href="/app/signup" className={this.props.classes.loginBtn}>
                         Don't have account?
                     </Button>
                 </Grid>

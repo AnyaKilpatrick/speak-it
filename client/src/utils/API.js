@@ -2,6 +2,9 @@ import axios from "axios";
 
 export default {
     saveNewUser: function(userObject){
-        return axios.post("/api/user", userObject);
+        return axios.post("/app/signup", userObject);
+    },
+    loginUser: function(userObject){
+        return axios.post("/login", userObject);
     }
 }

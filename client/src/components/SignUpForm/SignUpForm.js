@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import "./SignUpForm.css";
 import API from "./../../utils/API";
+import { Redirect } from "react-router-dom";
+
 
 import { withStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
@@ -58,7 +60,8 @@ class SignUpForm extends Component {
         country: "",
         age: "",
         password: "",
-        aboutUser:""
+        aboutUser:"",
+        redirectTo: null
     }
 
     handleChange = event => {
@@ -67,10 +70,20 @@ class SignUpForm extends Component {
     }
     
     saveNewUser = () => {
+        
         const {fullname, username, nativeLang, country, age, password, aboutUser} = this.state;
-        const userObject = {fullname, username, nativeLang, country, age, password, aboutUser};
+        const userObject = { password, username, fullname, nativeLang, country, age, aboutUser};
         API.saveNewUser(userObject)
-            .then(res=>console.log("saved "+ res))
+            .then(res=>{
+                console.log("saved "+ JSON.stringify(res));
+                if(res.data === "OK") {
+                    console.log("server return OK status, because this username already is in db")
+                }else{
+                    console.log("seems like this username wasn't used before.yay!")
+                    this.setState({redirectTo: "/app/profile"});
+                }
+                
+            })
             .catch(err=>console.log(err))
     }
 
@@ -86,7 +99,9 @@ class SignUpForm extends Component {
                 root: this.props.classes.myLabels,
             }
         }
-
+        if (this.state.redirectTo) {
+			return <Redirect to={{ pathname: this.state.redirectTo }} />
+		}
         return(
             <Grid container direction="row" alignItems="center" justify="center">
                 <Grid item lg={5}>
