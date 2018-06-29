@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import Logo from "./../../components/Logo";
+// import Logo from "./../../components/Logo";
 import SignUpForm from "./../../components/SignUpForm";
 
 class SignUp extends Component {

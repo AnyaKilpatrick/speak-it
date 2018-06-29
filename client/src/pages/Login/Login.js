@@ -14,7 +14,7 @@ class Login extends Component {
             <div id="wrapper">
                 <div id="introPage">
                     <Logo/>
-                    <LoginInput/>
+                    <LoginInput onLogin={this.props.onLogin} />
                 </div>
             </div>
         )

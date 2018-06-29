@@ -4,16 +4,11 @@ import API from "./../../utils/API";
 import { Redirect } from "react-router-dom";
 
 
-import { withStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
+import { withStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import purple from '@material-ui/core/colors/purple';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 
-import MenuItem from '@material-ui/core/MenuItem';
 //overriding /styling
 const styles = theme => ({
     container: {
@@ -34,19 +29,11 @@ const styles = theme => ({
         fontFamily: "'Cabin Sketch', cursive",
         fontWeight: "bold",
         fontSize:18,
-        // '&$cssFocused': {
-        //     color: "pink",
-        //   },
-        // '&:after': {
-        // borderBottomColor: "pink",
-        // }
     },
     myBtn: {
         marginTop:20,
         marginBottom: 20,
-        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
         background: "linear-gradient(45deg, rgba(92, 31, 94, 0.466) 30%, rgb(31, 30, 29) 90%)",
-        // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
         boxShadow: "0 3px 5px 2px rgba(69, 29, 82, 0.3)",
         color:"white"
     }

@@ -63,11 +63,14 @@ class LoginInput extends Component {
         const userObject = {username, password};
         API.loginUser(userObject)
             .then(res=>{
-                console.log("login response " + JSON.stringify(res));
+                console.log("login response %O", res.data);
+                
                 if(res.data === "OK") {
                     console.log("server return OK status, because this username doesn't exist or password was wrong")
                 }else{
-                    console.log("seems like this username and password match!yay!")
+                    console.log("seems like this username and password match!yay!");
+                    sessionStorage.user = JSON.stringify(res.data.local);
+                    this.props.onLogin(res.data.local);
                     this.setState({redirectTo: "/app/profile"});
                 }
             })
