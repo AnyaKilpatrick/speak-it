@@ -6,5 +6,8 @@ export default {
     },
     loginUser: function(userObject){
         return axios.post("/login", userObject);
+    },
+    checkLoggedInUser: function(){
+        return axios.get("/app/profile");
     }
 }

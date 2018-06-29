@@ -1,36 +1,45 @@
 import React, { Component } from 'react';
-import Form from "./../../components/Form";
 import API from "./../../utils/API";
-import { Link } from "react-router-dom";
 import "./Home.css";
+
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { withStyles } from '@material-ui/core/styles';
+import Map from "./../../components/Map";
+import MyProfile from "./../../components/MyProfile";
+
 class Home extends Component {
-  // Setting the initial values of this.state.topic, this.state.startYear and this.endYear
   state = {
+      user: null,
+      loggedIn: false,
   };
 
-  // // handle any changes to the input fields
-  // handleInputChange = event => {
-  //   // Pull the name and value properties off of the event.target (the element which triggered the event)
-  //   const { name, value } = event.target;
+  componentDidMount() {
+      if (sessionStorage.user) {
+          this.setState({ user: sessionStorage.user, loggedIn: true });
+      }
+  }
 
-  //   // Set the state for the appropriate input field
-  //   this.setState({
-  //     [name]: value
-  //   });
-  // };
-
-  // When the form is submitted, prevent the default event
-  // handleFormSubmit = event => {
-  //   event.preventDefault();
-  //   alert(`Topic: ${this.state.topic}\nstartYear: ${this.state.startYear}\nendYear: ${this.state.endYear}`);
-  //   this.setState({ topic: "", startYear: "", endYear: "" });
-  //   this.searchArticles(this.state.topic, this.state.startYear, this.state.endYear);
-  // };
 
     render(){
-    return (
-        <p>Hello</p>
-        )
+    const { classes, theme } = this.props;
+        if (this.state.user){
+            console.log("user user user "+ this.state.user);
+            const user = JSON.parse(this.state.user);
+            return (
+                <div>
+                    <MyProfile 
+                    fullname={user.fullname} 
+                    country={user.country}
+                    nativeLang={user.nativeLang}
+                    about={user.about}
+                    />
+                    <Map/>
+                </div>
+            );
+        }
+        return (<h1>Profile</h1>)
+
     }
 };
 
