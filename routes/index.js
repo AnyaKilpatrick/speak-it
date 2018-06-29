@@ -53,7 +53,6 @@ module.exports = function(app, passport){
   //     res.status(200).json({message:'Welcome!', success: true});
   // });
 
-
   app.post("/app/signup", passport.authenticate("local-signup", {
     successRedirect: "/app/profile",
     failureRedirect:"/app/signup",
