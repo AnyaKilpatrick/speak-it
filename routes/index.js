@@ -1,3 +1,5 @@
+const db = require("../models");
+// const userController = require("../controllers/userController");
 const path = require("path");
 // const router = require("express").Router();
 // const apiRoutes = require("./api");
@@ -5,7 +7,6 @@ const path = require("path");
 const express = require("express");
 const app = express();
 const passport = require("passport");
-
 // module.exports = function(app, passport){
 // // API Routes
 // router.use("/api", apiRoutes);
@@ -44,7 +45,12 @@ module.exports = function(app, passport){
   app.get("/login", function(req, res){
     res.sendStatus(200);
   })
+  app.get("/app/searchUsers/:country", function(req, res){
 
+      db.User.find({"local.country":req.params.country})
+      .then(users=>{res.json(users)})
+      .catch(err=>res.status(423).json(err))
+  })
   // app.get('/api/loginFailure', function(req, res) {
   //   res.status(401).json({message: 'Login Failed', success: false});
   // });
