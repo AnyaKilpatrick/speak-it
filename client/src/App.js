@@ -7,6 +7,8 @@ import SignUp from './pages/SignUp';
 import Profile from "./pages/Profile";
 import { getUser } from './utils/Auth';
 import HomeNavbar from './components/HomeNavbar';
+import FriendsSearch from "./pages/FriendsSearch";
+import API from "./utils/API";
 
 class App extends React.Component {
   state = {
@@ -20,6 +22,7 @@ class App extends React.Component {
       user: null,
     });
     sessionStorage.removeItem('user');
+    API.logout();
   }
 
   logIn = (user) => {
@@ -45,8 +48,11 @@ class App extends React.Component {
 
   loggedInRoutes() {
     return (
-      <HomeNavbar logOut={this.logOut}>
-        <Route path="/" component={Home}/>
+    <HomeNavbar logOut={this.logOut}>
+      <Switch>
+        <Route exact path="/" component={Home}/>
+        <Route exact path="/search" component={FriendsSearch}/>
+      </Switch>
       </HomeNavbar>
     );
   }
@@ -54,8 +60,11 @@ class App extends React.Component {
   loggedOutRoutes() {
     return (
       <div className="wrap">
+      <Switch>
         <Route exact path="/" render={() => <div><Login onLogin={this.logIn} /></div>} />
         <Route exact path="/app/signup" component={SignUp}/>
+        <Route render={() => <div><Login onLogin={this.logIn} /></div>}/>
+      </Switch>
       </div>
     );
   }
