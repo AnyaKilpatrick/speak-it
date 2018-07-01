@@ -27,15 +27,9 @@ class Home extends Component {
             console.log("user user user "+ this.state.user);
             const user = JSON.parse(this.state.user);
             return (
-                <div>
-                    <MyProfile 
-                    fullname={user.fullname} 
-                    country={user.country}
-                    nativeLang={user.nativeLang}
-                    about={user.about}
-                    />
+                <MyProfile fullname={user.fullname} country={user.country} nativeLang={user.nativeLang} about={user.aboutUser}>
                     <Map/>
-                </div>
+                </MyProfile>
             );
         }
         return (<h1>Profile</h1>)
