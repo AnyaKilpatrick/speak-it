@@ -1,7 +1,7 @@
 import React from 'react';
 import "./HomeNavbar.css";
 import API from "./../../utils/API";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 //styling
 import PropTypes from 'prop-types';
@@ -26,6 +26,9 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Avatar from '@material-ui/core/Avatar';
+import Countries from "./../../countries.json";
+import { getUser } from './../../utils/Auth';
 // import Avatar from '@material-ui/core/Avatar';
 
 
@@ -116,14 +119,22 @@ const styles = theme => ({
       right: "45%",
       fontSize:50,
       fontFamily: "'Cabin Sketch', cursive"
+  },
+  myAvatar: {
+    width:30,
+    height:30
   }
 });
 
 class HomeNavbar extends React.Component {
   state = {
-    user:{},
+    // user:{},
+    user:null,
+    countries: Countries,
+    countryCode:"",
+    imageSrc:"",
     openNav: false,
-    openDrawer: true,
+    openDrawer: false,
     redirectTo: null
   };
 
@@ -138,22 +149,33 @@ class HomeNavbar extends React.Component {
     this.setState({ openNav: false });
   };
 
-//   componentDidMount = () => {
-//     API.checkLoggedInUser()
-//         .then(res=>{
-//             console.log("is logged in? "+JSON.stringify(res))
-//             if(res.data === "") {
-//                 console.log("user is not logged in"); //in this case we redirect back to log in page
-//                 this.setState({redirectTo: "/"});
-//             }else{
-//                 console.log("user is logged in.yay!")
-//                 this.setState({user: res.data.local});
-//                 console.log("updated user state "+res.data.local);
-//             }
-//         })
-//         .catch(err=> console.log(err));
 
-//   };
+  componentDidMount() {
+    if (getUser()) {
+      const userCountry = getUser().country;
+      const countries = this.state.countries;
+      let countryCode;
+      for(let c=0;c<countries.length;c++){
+        if (countries[c].name === userCountry){
+          countryCode = countries[c].code;
+        }
+      }
+      const src = "http://www.geonames.org/flags/x/"+countryCode.toLowerCase()+".gif"
+
+      this.setState({ 
+        user: getUser(),
+        countryCode: countryCode,
+        imageSrc: src
+      });
+      
+    }
+  }
+  renderSearchPage = () => {
+    this.setState({redirectTo:"/search"});
+      // window.location.assign("/search"); //TEMPORARY WAY. IT RELOADS ALL PAGE. I will use way until I firgure out better one
+
+  }
+
 
   render() {
     const { classes, theme } = this.props;
@@ -197,12 +219,15 @@ class HomeNavbar extends React.Component {
             <Divider/>
             <ListItem button onClick={this.handleClick} className={classes.menuItem}>
                 <ListItemIcon>
-                    <Icon className={classes.icon}>
+                    {/* <Icon className={classes.icon}>
                         mood
-                    </Icon>
-                    {/* <Avatar alt="Remy Sharp" src="/images/1.jpg"/> */}
+                    </Icon> */}
+                    <Avatar alt="avatar" src={this.state.imageSrc} 
+                    classes={{
+                      root:classes.myAvatar
+                    }}/>
                 </ListItemIcon>
-                <ListItemText inset primary="Anya Kilpatrick" 
+                <ListItemText inset primary={getUser().username} 
                 classes={{primary: classes.navbarText}}
                 />
                 {this.state.openDrawer ? <ExpandLess /> : <ExpandMore />}
@@ -229,30 +254,13 @@ class HomeNavbar extends React.Component {
             </Collapse>
             <Divider />
             <List component="nav">
-                <ListItem button className={classes.menuItem}>
-                    <ListItemIcon>
-                        <Icon className={classes.icon}>
-                            group
-                        </Icon>
-                    </ListItemIcon>
-                    <ListItemText primary="Friends" classes={{primary: classes.navbarText}}/>
-                </ListItem>
-                <ListItem button className={classes.menuItem}>
-                    <ListItemIcon>
-                        <Icon className={classes.icon}>
-                            email
-                        </Icon>
-                    </ListItemIcon>
-                    <ListItemText primary="Messages" classes={{primary: classes.navbarText}}/>
-                </ListItem>
-                <ListItem button className={classes.menuItem}>
-                    <ListItemIcon>
-                        <Icon className={classes.icon}>
-                            public
-                        </Icon>
-                    </ListItemIcon>
-                    <ListItemText primary="My Map" classes={{primary: classes.navbarText}}/>
-                </ListItem>
+                {this.listItemLink("/", "My Profile", "account_circle")}
+
+                {this.listItemLink("/friends", "Friends", "group")}
+
+                {this.listItemLink("/messages","Messages","email")}
+
+                {this.listItemLink('/search', 'Search', 'search')}
             </List>
         </Drawer>
         <main id="mainContainer" className={classes.content}>
@@ -261,6 +269,24 @@ class HomeNavbar extends React.Component {
           {this.props.children}
         </main>
       </div>
+    );
+  }
+
+  listItemLink(to, label, iconName) {
+    const { classes } = this.props;
+    return (
+      <ListItem button className={classes.menuItem}>
+        <ListItemIcon>
+          <Link to={to}>
+            <Icon className={classes.icon}>
+              {iconName}
+            </Icon>
+          </Link>
+        </ListItemIcon>
+        <ListItemText classes={{ primary: classes.navbarText }}>
+          <Link to={to}>{label}</Link>
+        </ListItemText>
+      </ListItem>
     );
   }
 }
