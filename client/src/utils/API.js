@@ -9,5 +9,11 @@ export default {
     },
     checkLoggedInUser: function(){
         return axios.get("/app/profile");
+    },
+    logout: function(){
+        return axios.get("/app/logout");
+    },
+    findUsersByCountry: function(country){
+        return axios.get("app/searchUsers/"+country)
     }
 }
