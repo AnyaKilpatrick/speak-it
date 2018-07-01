@@ -71,7 +71,7 @@ class LoginInput extends Component {
                     console.log("seems like this username and password match!yay!");
                     sessionStorage.user = JSON.stringify(res.data.local);
                     this.props.onLogin(res.data.local);
-                    this.setState({redirectTo: "/app/profile"});
+                    this.setState({redirectTo: "/"});
                 }
             })
             .catch(err=> console.log(err))
@@ -118,12 +118,16 @@ class LoginInput extends Component {
                     </Grid>
                 </Grid>
                 <Grid container direction="row" alignItems="center" justify="center">
-                    <Button href="#text-buttons" className={this.props.classes.loginBtn} onClick={this.loginUser}>
+                <Grid item s={12} m={6} lg={1}>
+                    <Button onClick={this.loginUser} className={this.props.classes.loginBtn} >
                         Log In
                     </Button>
+                </Grid>
+                <Grid item s={12} m={6} lg={3}>
                     <Button href="/app/signup" className={this.props.classes.loginBtn}>
                         Don't have account?
                     </Button>
+                </Grid>
                 </Grid>
             </div>
         )
