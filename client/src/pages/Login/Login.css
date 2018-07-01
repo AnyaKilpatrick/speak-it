@@ -1,8 +1,11 @@
 #wrapper {
     min-height: 100vh;
-    background-size:cover;
-    background-position:center -50px;
+    /* background-size:cover; */
+    background-repeat: no-repeat;
+    background-size:100% auto;
+    background-position:center bottom;
     background-image: url("./resizedBackground.png");
+    opacity: 0.9;
 }
 #introPage {
     padding-top:170px;
@@ -11,7 +14,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size:1200px 800px;
-    background-image: url("./backgroundWhite.png");
+    background-image: url("./backgroundWhite1.png");
     padding-bottom:300px;
 }
 

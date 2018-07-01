@@ -1,1 +1,7 @@
-
+#myAvatar {
+    width:100%;
+    height:auto;
+    border: solid 4px rgba(70, 67, 67, 0.822);
+    margin-top: 100px;
+    /* color: rgba(255, 255, 255, 0.699); */
+}

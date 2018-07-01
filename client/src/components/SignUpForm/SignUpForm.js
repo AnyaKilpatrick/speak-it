@@ -2,12 +2,16 @@ import React, {Component} from "react";
 import "./SignUpForm.css";
 import API from "./../../utils/API";
 import { Redirect } from "react-router-dom";
-
-
 import { withStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import Countries from "./../../countries.json";
+import FormControl from '@material-ui/core/FormControl';
 
 //overriding /styling
 const styles = theme => ({
@@ -30,14 +34,35 @@ const styles = theme => ({
         fontWeight: "bold",
         fontSize:18,
     },
+    selectLabel: {
+        fontFamily: "'Cabin Sketch', cursive",
+        fontWeight: "bold",
+        fontSize:18,
+        marginLeft:10
+    },
     myBtn: {
         marginTop:20,
         marginBottom: 20,
         background: "linear-gradient(45deg, rgba(92, 31, 94, 0.466) 30%, rgb(31, 30, 29) 90%)",
         boxShadow: "0 3px 5px 2px rgba(69, 29, 82, 0.3)",
         color:"white"
+    },
+    formControl: {
+        // margin: theme.spacing.unit,
+        marginTop:22,
+        minWidth: 120,
+        maxWidth:230
+        // marginLeft
+    },
+    selectEmpty: {
+    marginTop: theme.spacing.unit * 2,
+    },
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
     }
   });
+
 class SignUpForm extends Component {
 
     state = {
@@ -48,12 +73,14 @@ class SignUpForm extends Component {
         age: "",
         password: "",
         aboutUser:"",
+        options: Countries,
         redirectTo: null
     }
 
     handleChange = event => {
         const {name, value} = event.target;
         this.setState({[name]: value});
+        console.log(name + value)
     }
     
     saveNewUser = () => {
@@ -136,18 +163,24 @@ class SignUpForm extends Component {
                             </Grid>
                             {/* COUNTRY */}
                             <Grid item lg={5}>
-                            <TextField
-                            onChange={this.handleChange}
-                            name="country"
-                            value={this.state.country}
-                            label="Country"
-                            className={this.props.classes.textField}
-                            //   placeholder="Placeholder"
-                            //   helperText="Full width!" HELPER text can be used to display error (validation rules)
-                            margin="normal"
-                            InputProps={inputStyles}
-                            InputLabelProps={inputLabel}
-                            />
+                            <FormControl className={this.props.classes.formControl}>
+                                <InputLabel className={this.props.classes.selectLabel}>Country</InputLabel>
+                                <Select
+                                native
+                                onChange={this.handleChange}
+                                name="country"
+                                value={this.state.country}
+                                // label="Country"
+                                className={this.props.classes.textField}
+                                // margin="normal"
+                                // InputProps={inputStyles}
+                                >
+                                <option value="" />
+                                {this.state.options.map((option)=>
+                                    <option value={option.name} key={option.code}>{option.name}</option>
+                                )}/>
+                                </Select>
+                            </FormControl>
                             </Grid>
                             {/* AGE */}
                             <Grid item lg={5}>
