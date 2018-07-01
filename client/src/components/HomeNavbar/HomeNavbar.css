@@ -9,6 +9,7 @@
 #mainContainer {
     margin-top: 65px;
     overflow: scroll;
+    background-image:url('./paperBackground.jpg')
 }
 /* #side {
     height:100vh;
