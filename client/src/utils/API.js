@@ -15,5 +15,15 @@ export default {
     },
     findUsersByCountry: function(country){
         return axios.get("app/searchUsers/"+country)
+    },
+    findUserInfo: function(query){
+        return axios.get("/api/user/"+query);
+    },
+    sendFriendRequest: function(friendId){
+        console.log("passing id " + friendId);
+        return axios.post("/api/request/"+friendId);
+    },
+    getFriendsInfo: function(){
+        return axios.get("/api/friends");
     }
 }
