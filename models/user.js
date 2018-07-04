@@ -35,7 +35,21 @@ const userSchema = new Schema({
         aboutUser: {
             type: String,
             required: true
-        }
+        },
+        // adding an id of friend associated with this user
+        friend:[{
+            type:Schema.Types.ObjectId,
+            ref:"User"
+        }],
+        requests:[{
+            type:Schema.Types.ObjectId,
+            ref:"User"
+        }],
+        pending:[{
+            type:Schema.Types.ObjectId,
+            ref:"User"
+        }]
+
     }
 });
 //generating a hash
