@@ -52,6 +52,7 @@ module.exports = function(app, passport){
       .catch(err=>res.status(423).json(err))
   })
 
+  //SENDING A FRIEND REQUEST (adding user who sent requested to "requests" array of target user, and adding target user to "panding" array)
   app.post("/api/request/:id", isLoggedIn, function(req,res){
     console.log("YAAAAAAYYY");
     const userId = req.params.id;
@@ -64,6 +65,24 @@ module.exports = function(app, passport){
       })
       .then((query) => res.json({_id: userId, success: true}))
       .catch(err=>res.status(500).json(err));
+  })
+
+  //ACCEPTING A FRIEND REQUEST (removing from pending and requests array, and moving to friends array)
+  app.post("/api/acceptfriend/:id", isLoggedIn, function(req, res){
+    const id=req.params.id;
+    console.log("reach accept friend route "+ id);
+    req.user.update({$pull: {"local.requests": id}})
+      .then(()=> {
+        return db.User.findOneAndUpdate({_id: req.user._id},{$addToSet: {"local.friend": id}})
+      })
+      .then(()=> {
+        return db.User.findOneAndUpdate({_id:id}, {$pull: {"local.pending": req.user._id}})
+      })
+      .then(()=>{
+        return db.User.findOneAndUpdate({_id:id},{$addToSet:{"local.friend": req.user._id}})
+      })
+      .then((query)=> res.json({success:true}))
+      .catch(err=> res.status(500).json(err));
   })
   
   app.get("/api/friends/", isLoggedIn, function(req, res){

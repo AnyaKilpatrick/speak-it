@@ -25,5 +25,9 @@ export default {
     },
     getFriendsInfo: function(){
         return axios.get("/api/friends");
+    },
+    acceptFriend: function(friendId){
+        return axios.post("/api/acceptfriend/"+friendId);
     }
+
 }
