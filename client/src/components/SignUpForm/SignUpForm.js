@@ -94,7 +94,7 @@ class SignUpForm extends Component {
                     console.log("server return OK status, because this username already is in db")
                 }else{
                     console.log("seems like this username wasn't used before.yay!")
-                    this.setState({redirectTo: "/app/profile"});
+                    this.setState({redirectTo: "/"});
                 }
                 
             })

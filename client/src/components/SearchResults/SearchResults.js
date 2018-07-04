@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {Component} from 'react';
+import API from "../../utils/API";
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -13,6 +15,7 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import classNames from 'classnames';
 import Icon from '@material-ui/core/Icon';
+
 
 
 const styles = theme => ({
@@ -64,7 +67,7 @@ const styles = theme => ({
   },
 });
 
-class SearchResults extends React.Component {
+class SearchResults extends Component {
   state = {
     expanded: null,
   };
@@ -74,6 +77,8 @@ class SearchResults extends React.Component {
       expanded: expanded ? panel : false,
     });
   };
+
+
 
   render() {
     const { classes } = this.props;
@@ -99,7 +104,7 @@ class SearchResults extends React.Component {
           </ExpansionPanelDetails>
         <Divider />
         <ExpansionPanelActions>
-          <Button size="small" id={this.props.userBtnId}>Send Friend Request</Button>
+          <Button size="small" onClick={this.props.sendFriendRequest} id={this.props.userBtnId}>Send Friend Request</Button>
           <Icon>person_add</Icon>
         </ExpansionPanelActions>
         </ExpansionPanel>
