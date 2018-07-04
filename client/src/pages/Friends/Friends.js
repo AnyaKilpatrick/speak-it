@@ -5,6 +5,9 @@ import { withStyles } from '@material-ui/core/styles';
 import API from "../../utils/API";
 import FriendList from "../../components/FriendList"
 import List from '@material-ui/core/List';
+import Icon from '@material-ui/core/Icon';
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
 
 const styles = {
     root: {
@@ -20,7 +23,8 @@ class Friends extends Component {
         pending:[],
         requests:[],
         currentArray:[],
-        page: "friends"
+        page: "friends",
+        disabled: false
     }
     showFriends = () => {
         this.setState({page: "friends"}, ()=>{
@@ -48,6 +52,17 @@ class Friends extends Component {
         .catch(err=>console.log(err))
     }
 
+    addFriend = (event) => {
+        console.log("clicked 'add friend' btn");
+        const friendId = event.target.parentNode.parentNode.id;
+        console.log(event.target.parentNode.parentNode.id);
+        API.acceptFriend(friendId)
+        .then((res)=> {
+            console.log(res);
+        })
+        .catch(err=>console.log(err));
+    }
+
 
     showListItems = () => {
         if(this.state.page === "friends"){
@@ -67,6 +82,27 @@ class Friends extends Component {
             });
         }
     }
+    addIcon = (userId) => { //iconutton for accapting a friend request
+        const { classes } = this.props;
+        if(this.state.page==="requests"){
+            return(
+                <Tooltip id="tooltip-fab" title="Accept Request">
+                    <IconButton id={userId} aria-label="accept request"  onClick={this.addFriend}>
+                    <Icon>how_to_reg</Icon>
+                    </IconButton>
+                </Tooltip>
+              )
+        }
+        else if(this.state.page === "friends"){
+            return(
+                <Tooltip id="tooltip-fab" title="Delete Friend">
+                    <IconButton id={userId} aria-label="delete friend">
+                        <Icon>delete</Icon>
+                    </IconButton>
+                </Tooltip>
+              )
+        }
+    }
 
     render(){
         const { classes } = this.props;
@@ -82,9 +118,13 @@ class Friends extends Component {
                     <List>
                         {this.state.currentArray.map((friend, index)=>
                             <FriendList
+                            profileId={friend._id}
+                            userId = {friend._id}
                             key={index}
                             friendName = {friend.local.fullname}
-                            />
+                            >
+                            {this.addIcon(friend._id)}
+                            </FriendList>
                         )}
                     </List>
                 </div>
