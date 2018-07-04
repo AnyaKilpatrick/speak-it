@@ -51,13 +51,42 @@ module.exports = function(app, passport){
       .then(users=>{res.json(users)})
       .catch(err=>res.status(423).json(err))
   })
-  // app.get('/api/loginFailure', function(req, res) {
-  //   res.status(401).json({message: 'Login Failed', success: false});
-  // });
 
-  // app.get('/api/loginSuccess', function(req, res) {
-  //     res.status(200).json({message:'Welcome!', success: true});
-  // });
+  app.post("/api/request/:id", isLoggedIn, function(req,res){
+    console.log("YAAAAAAYYY");
+    const userId = req.params.id;
+    req.user.update({ $addToSet: {"local.pending": userId }})
+      .then(() => {
+        return db.User.findOne({_id:userId});
+      })
+      .then((dbUser) => {
+        return dbUser.update({$addToSet: {"local.requests": req.user._id}})
+      })
+      .then((query) => res.json({_id: userId, success: true}))
+      .catch(err=>res.status(500).json(err));
+  })
+  
+  app.get("/api/friends/", isLoggedIn, function(req, res){
+    console.log("hitting get route");
+    const userId = req.user._id;
+    db.User.findOne({_id:userId})
+    // .populate("friend")
+    .populate("local.pending")
+    .populate("local.friend")
+    .populate("local.requests")
+    // {path:"friend"}, {path:"requests"}
+    // .populate("requests")
+    .then(function(dbUser){
+      
+      // console.log("populated USER !!!! %O" + dbUser);
+      res.json(dbUser);
+    })
+    .catch(err=>{
+      res.status(500).json(err);
+      console.log(err)
+    });
+    // res.json(user.populate("user"));
+  })
 
   app.post("/app/signup", passport.authenticate("local-signup", {
     successRedirect: "/app/profile",
@@ -70,4 +99,6 @@ module.exports = function(app, passport){
     failureRedirect:"/login",
     failureFlash: true
   }));
+
+  
 }
