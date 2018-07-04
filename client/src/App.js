@@ -8,12 +8,15 @@ import Profile from "./pages/Profile";
 import { getUser } from './utils/Auth';
 import HomeNavbar from './components/HomeNavbar';
 import FriendsSearch from "./pages/FriendsSearch";
+import Friends from "./pages/Friends";
 import API from "./utils/API";
+import FriendProfile from "./pages/FriendProfile";
 
 class App extends React.Component {
   state = {
     loggedIn: false,
     user: null,
+
   };
 
   logOut = () => {
@@ -52,6 +55,8 @@ class App extends React.Component {
       <Switch>
         <Route exact path="/" component={Home}/>
         <Route exact path="/search" component={FriendsSearch}/>
+        <Route exact path="/friends" component={Friends}/>
+        <Route path="/user/:id" component={FriendProfile}/>
       </Switch>
       </HomeNavbar>
     );
