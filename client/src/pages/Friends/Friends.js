@@ -43,11 +43,17 @@ class Friends extends Component {
     }
 
     componentDidMount = () => {
+        this.apiCall();
+    }
+
+    apiCall = () => {
         API.getFriendsInfo()
         .then(res=> {
             console.log("populated user response %O", res.data);
             const {friend, pending, requests} = res.data.local;
-            this.setState({friend, pending, requests});
+            this.setState({friend, pending, requests}, ()=>{
+                this.showListItems();
+            });
         })
         .catch(err=>console.log(err))
     }
@@ -59,6 +65,7 @@ class Friends extends Component {
         API.acceptFriend(friendId)
         .then((res)=> {
             console.log(res);
+            this.apiCall(); //mongodb had a lot of changes after this, so we need to load fresh information
         })
         .catch(err=>console.log(err));
     }
