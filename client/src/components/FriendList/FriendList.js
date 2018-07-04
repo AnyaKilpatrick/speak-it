@@ -17,6 +17,7 @@ import Typography from '@material-ui/core/Typography';
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Icon from '@material-ui/core/Icon';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const styles = theme => ({
   root: {
@@ -38,6 +39,9 @@ const styles = theme => ({
     fontWeight: 550,
     fontFamily: "'Cabin Sketch', cursive",
     fontSize: 28
+  },
+  ivonBtn:{
+    backgroundColor:"blue"
   }
 });
 
@@ -77,9 +81,12 @@ class FriendList extends Component {
                 secondary={secondary ? 'Secondary text' : null}
             />
             <ListItemSecondaryAction>
-                <IconButton aria-label="delete">
-                <DeleteIcon />
-                </IconButton>
+              <Tooltip id="tooltip-fab" title="View Profile">
+                  <IconButton classname={classes.iconBtn} href={"/user/"+this.props.profileId} aria-label="view profile">
+                    <Icon>chrome_reader_mode</Icon>
+                  </IconButton>
+              </Tooltip>
+              {this.props.children}
             </ListItemSecondaryAction>
         </ListItem>
     );
