@@ -40,7 +40,7 @@ app.use(passport.session()); //persistent login sessions
 app.use(flash());
 
 // Connect to the Mongo DB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/speak-it-db");
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/speakit-db");
 // Add routes, both API and view
 // app.use(routes);
 require("./routes")(app, passport);
