@@ -123,6 +123,10 @@ const styles = theme => ({
   myAvatar: {
     width:30,
     height:30
+  },
+  myLink: {
+    color: "white",
+    textDecoration:"none"
   }
 });
 
@@ -264,7 +268,7 @@ class HomeNavbar extends React.Component {
             </List>
         </Drawer>
         <main id="mainContainer" className={classes.content}>
-          <div className={classes.toolbar} />
+          {/* <div className={classes.toolbar} /> */}
           {/* <Typography noWrap>{'You think water moves fast? You should see ice.'}</Typography> */}
           {this.props.children}
         </main>
@@ -284,7 +288,7 @@ class HomeNavbar extends React.Component {
           </Link>
         </ListItemIcon>
         <ListItemText classes={{ primary: classes.navbarText }}>
-          <Link to={to}>{label}</Link>
+          <Link to={to} className={classes.myLink}>{label}</Link>
         </ListItemText>
       </ListItem>
     );
