@@ -61,6 +61,7 @@ class LoginInput extends Component {
     loginUser = () => {
         const {username, password} = this.state;
         const userObject = {username, password};
+        console.log("pressed btn");
         API.loginUser(userObject)
             .then(res=>{
                 console.log("login response %O", res.data);
