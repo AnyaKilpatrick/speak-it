@@ -1,11 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const io = require("socket.io")();
 // const routes = require("./routes")(app, passport);
 
 // const routes = require("./routes");
 const app = express();
 const PORT = process.env.PORT || 3001;
+const socketPort = 8000;
 
 
 //setting up Passport
@@ -44,7 +46,21 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/speakit-db");
 // Add routes, both API and view
 // app.use(routes);
 require("./routes")(app, passport);
+
 // Start the API server
+// const expressServer = app.listen(PORT, function() {
+//   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
+// });
+// server.listen(PORT, function (err) {
+//   if (err) throw err
+//   console.log('listening on port '+ PORT)
+// })
 app.listen(PORT, function() {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });
+
+io.on("connection", require("./socket.js"));
+
+io.listen(socketPort);
+// const io = require("socket.io").listen(expressServer);
+// const peerServer = new PeerServer({port:9000, path:"/chat"});
