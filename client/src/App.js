@@ -11,6 +11,12 @@ import FriendsSearch from "./pages/FriendsSearch";
 import Friends from "./pages/Friends";
 import API from "./utils/API";
 import FriendProfile from "./pages/FriendProfile";
+import MessagesPage from "./pages/MessagesPage";
+//socket
+import openSocket from "socket.io-client";
+const socket = openSocket("http://localhost:8000");
+
+
 
 class App extends React.Component {
   state = {
@@ -25,6 +31,7 @@ class App extends React.Component {
       user: null,
     });
     sessionStorage.removeItem('user');
+    socket.emit("user is offline");
     API.logout();
   }
 
@@ -53,10 +60,11 @@ class App extends React.Component {
     return (
     <HomeNavbar logOut={this.logOut}>
       <Switch>
-        <Route exact path="/" component={Home}/>
+        <Route exact path="/" render={() => <div><Home socket={socket} /></div>}/>
         <Route exact path="/search" component={FriendsSearch}/>
         <Route exact path="/friends" component={Friends}/>
         <Route path="/user/:id" component={FriendProfile}/>
+        <Route exact path="/messages" component={MessagesPage}/>
       </Switch>
       </HomeNavbar>
     );
