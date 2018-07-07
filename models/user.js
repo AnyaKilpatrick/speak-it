@@ -50,6 +50,14 @@ const userSchema = new Schema({
             ref:"User"
         }]
 
+    },
+    online: {
+        type: Boolean,
+        default:false
+    },
+    socketId: {
+        type:String,
+        default:null
     }
 });
 //generating a hash
