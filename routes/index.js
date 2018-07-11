@@ -128,26 +128,28 @@ module.exports = function(app, passport){
 
   app.get("/api/loadChats", isLoggedIn, function(req, res){
     console.log("hitting 'get chats' route");
-    // db.Chat.find({ participants: req.user._id })
-    // .populate('participants')
-    // .then(chats => {
-    //   res.json(Object.assign({}, req.user.toJSON(), { chats }));
-    // });
     db.Chat.find({ participants: req.user._id }).populate('participants').then(function(chats) {
       res.json(Object.assign({}, req.user._doc, { chats }));
     })
-    // db.User.findOne({_id: req.user._id})
-    // //.populate('chats')
-    // .then(function(dbUser){
-    //   console.log('DB User: ' + dbUser);
-    //   return db.Chat.find({ participants: dbUser._id }).populate('participants').then(function(chats) {
-    //     res.json(Object.assign({}, dbUser, { chats }))
-    //   });
-    // })
     .catch(err=>{
       res.status(500).json(err);
       console.log(err);
     })
+  })
+
+  app.get("/api/loadchat/:id", isLoggedIn, function(req, res){
+    console.log("hitting 'load a chat' route");
+    db.Chat.find({_id:req.params.id})
+    .populate("participants")
+    .then(function(chatInfo){
+      const myInfo={myId:req.user._id}
+      res.json(Object.assign(myInfo,{chatInfo}));
+    })
+    .catch(err=>{
+      res.status(500).json(err);
+      console.log(err);
+    })
+
   })
 
   app.post("/app/signup", passport.authenticate("local-signup", {

@@ -35,7 +35,9 @@ export default {
     loadChats: function(){
         return axios.get("/api/loadChats");
         // return fetch('/api/loadChats', { credentials: 'same-origin' }).then(res => res.json());
-
+    },
+    loadMessages: function(chatId){
+        return axios.get("/api/loadchat/"+chatId);
     }
 
 }
