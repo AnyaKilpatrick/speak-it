@@ -51,6 +51,14 @@ module.exports = function(app, passport){
       .then(users=>{res.json(users)})
       .catch(err=>res.status(423).json(err))
   })
+  app.get("/api/user/:id", function(req, res){
+    console.log("hitting 'findUserInfo' route")
+    db.User.find({_id:req.params.id})
+    .then((dbUser)=>{
+      res.json(dbUser);
+    })
+    .catch(err=> res.status(500).json(err));
+  })
 
   //SENDING A FRIEND REQUEST (adding user who sent requested to "requests" array of target user, and adding target user to "panding" array)
   app.post("/api/request/:id", isLoggedIn, function(req,res){
@@ -81,6 +89,17 @@ module.exports = function(app, passport){
       .then(()=>{
         return db.User.findOneAndUpdate({_id:id},{$addToSet:{"local.friend": req.user._id}})
       })
+      .then(()=>{
+        return db.Chat.create({participants:[id, req.user._id]});
+      })
+      .then((dbChat)=>{
+        console.log("!!!!!!!!!!!!!!!!! ", dbChat);
+        db.User.findOneAndUpdate({_id:req.user._id},{$addToSet: {"chats": dbChat._id}})
+        .then(()=>{
+          return db.User.findOneAndUpdate({_id:id}, {$addToSet: {"chats": dbChat._id}})
+        })
+        .catch(err=>console.log(err));
+      })
       .then((query)=> res.json({success:true}))
       .catch(err=> res.status(500).json(err));
   })
@@ -105,6 +124,30 @@ module.exports = function(app, passport){
       console.log(err)
     });
     // res.json(user.populate("user"));
+  })
+
+  app.get("/api/loadChats", isLoggedIn, function(req, res){
+    console.log("hitting 'get chats' route");
+    // db.Chat.find({ participants: req.user._id })
+    // .populate('participants')
+    // .then(chats => {
+    //   res.json(Object.assign({}, req.user.toJSON(), { chats }));
+    // });
+    db.Chat.find({ participants: req.user._id }).populate('participants').then(function(chats) {
+      res.json(Object.assign({}, req.user._doc, { chats }));
+    })
+    // db.User.findOne({_id: req.user._id})
+    // //.populate('chats')
+    // .then(function(dbUser){
+    //   console.log('DB User: ' + dbUser);
+    //   return db.Chat.find({ participants: dbUser._id }).populate('participants').then(function(chats) {
+    //     res.json(Object.assign({}, dbUser, { chats }))
+    //   });
+    // })
+    .catch(err=>{
+      res.status(500).json(err);
+      console.log(err);
+    })
   })
 
   app.post("/app/signup", passport.authenticate("local-signup", {
