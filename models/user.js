@@ -58,7 +58,11 @@ const userSchema = new Schema({
     socketId: {
         type:String,
         default:null
-    }
+    },
+    chats:[{
+        type:Schema.Types.ObjectId,
+        ref:"Chat"
+    }]
 });
 //generating a hash
 userSchema.methods.generateHash = function(password) {
