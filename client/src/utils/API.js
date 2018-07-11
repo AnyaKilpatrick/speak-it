@@ -28,6 +28,14 @@ export default {
     },
     acceptFriend: function(friendId){
         return axios.post("/api/acceptfriend/"+friendId);
+    },
+    createChatroom: function(object){
+        return axios.post("/api/createChatroom", object);
+    },
+    loadChats: function(){
+        return axios.get("/api/loadChats");
+        // return fetch('/api/loadChats', { credentials: 'same-origin' }).then(res => res.json());
+
     }
 
 }
