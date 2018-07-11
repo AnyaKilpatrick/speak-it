@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt-nodejs");
 const Schema = mongoose.Schema;
 
 const chatSchema = new Schema({
-    participants:[],
+    participants:[{type: Schema.Types.ObjectId, ref: "User"}],
     messages:[
         {
             author: {
