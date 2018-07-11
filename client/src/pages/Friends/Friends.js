@@ -8,6 +8,7 @@ import List from '@material-ui/core/List';
 import Icon from '@material-ui/core/Icon';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
+import { getUser } from '../../utils/Auth';
 
 const styles = {
     root: {
@@ -74,7 +75,7 @@ class Friends extends Component {
     showListItems = () => {
         if(this.state.page === "friends"){
             const array = this.state.friend;
-            console.log("friends array "+array);
+            console.log("friends array ",array);
             this.setState({currentArray: array});
         }
         else if(this.state.page === "requests"){
@@ -89,6 +90,20 @@ class Friends extends Component {
             });
         }
     }
+    
+    addChatIcon = (userId) => {
+        if(this.state.page==="friends"){
+            return(
+                <Tooltip id="tooltip-fab" title="Chat">
+                    <IconButton id={userId} aria-label="chat">
+                        <Icon>chat</Icon>
+                    </IconButton>
+                </Tooltip>
+            )
+        }
+
+    }
+
     addIcon = (userId) => { //iconutton for accapting a friend request
         const { classes } = this.props;
         if(this.state.page==="requests"){
@@ -130,6 +145,7 @@ class Friends extends Component {
                             key={index}
                             friendName = {friend.local.fullname}
                             >
+                            {this.addChatIcon(friend._id)}
                             {this.addIcon(friend._id)}
                             </FriendList>
                         )}
