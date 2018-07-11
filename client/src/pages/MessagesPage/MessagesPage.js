@@ -17,6 +17,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import API from "../../utils/API";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { Redirect, Link } from "react-router-dom";
 
 const styles = theme => ({
 //   root: {
@@ -96,11 +97,11 @@ class MessagesPage extends Component {
     timer=null;
 
     state = {
-        page: "chats",
         allChats: [],
         userId: "",
         loaded:false,
-        completed:0
+        completed:0,
+        directChatInfo: null
     };
 
     componentDidMount() {
@@ -163,100 +164,43 @@ class MessagesPage extends Component {
     this.setState({ completed: completed >= 100 ? 0 : completed + 1 });
   };
 
-  goBack = () => {
-      this.setState({page: "chats"});
-  }
-  openChat = event => {
-        this.setState({page:"directChat"});
-  }
 
   render() {
     const { classes } = this.props;
 
-    if(this.state.page === "chats" && this.state.loaded === true){
+    if(this.state.loaded === true){
         return (
         //   <div className={classes.root}>
-                <Grid container direction="row" justify="center" alignItems="center">
-                    <Grid item xs={12} sm={8} m={6} lg={6} className={classes.chatDiv}>
-                        <List>
-                            <ListItem className={classes.listItem}>
-                                <ListItemText
-                                        primary="Chats"
-                                        classes={{primary:classes.header}}
-                                    />
-                            </ListItem>
-                            {this.state.allChats.map((chat, index)=>
-                                <ListItem dense button key={index} id={chat._id} className={classes.listItem} onClick={this.openChat}>
-                                    <Avatar alt="friend" src="http://www.geonames.org/flags/x/uk.gif" className={classes.avatar} />
-                                    <ListItemText 
-                                            primary={<Typography>{chat.participants[0].local.fullname}</Typography>}
-                                            secondary="Hello, how are .."
-                                            classes={{primary:classes.primaryText}}
-
-                                        />
-                                        {/* <ListItemIcon>
-                                            <Icon className={classes.icon}>
-                                            person
-                                            </Icon>
-                                        </ListItemIcon> */}
-                                </ListItem>
-                            )}
-                        </List>
-                    </Grid>
-                </Grid>
-        );
-    }else if(this.state.page==="directChat"){
-        return(
             <Grid container direction="row" justify="center" alignItems="center">
-            <Grid item xs={12} sm={8} m={6} lg={6} className={classes.chatDiv}>
-                <List>
-                    <ListItem className={classes.listItem}>
-                        <Tooltip id="tooltip-fab" title="Go back">
-                            <IconButton aria-label="go back" onClick={this.goBack}>
-                                <Icon className={classes.arrowIcon}>arrow_left</Icon>
-                            </IconButton>
-                        </Tooltip>
-                        <ListItemText
-                                primary="Your friend's name"
-                                classes={{primary:classes.header}}
-                            />
-                    </ListItem>
-                    {/* loop through messages here */}
-                    <ListItem dense button onClick={this.openChat}>
-                    <Avatar alt="friend" src="http://www.geonames.org/flags/x/uk.gif" />
-                    <ListItemText 
-                            primary="Hi, how are you???"
-                            secondary="Sunday, 4:50pm"
-                            classes={{primary:classes.primaryText, secondary:classes.secondaryText}}
+                <Grid item xs={12} sm={8} m={6} lg={6} className={classes.chatDiv}>
+                    <List>
+                        <ListItem className={classes.listItem}>
+                            <ListItemText
+                                    primary="Chats"
+                                    classes={{primary:classes.header}}
+                                />
+                        </ListItem>
+                        {this.state.allChats.map((chat, index)=>
+                            <Link to={"/messages/"+chat._id}>
+                            <ListItem dense button key={index} id={chat._id} className={classes.listItem} onClick={this.openChat}>
+                                <Avatar alt="friend" src="http://www.geonames.org/flags/x/uk.gif" className={classes.avatar} />
+                                <ListItemText 
+                                        primary={<Typography>{chat.participants[0].local.fullname}</Typography>}
+                                        secondary="Hello, how are .."
+                                        classes={{primary:classes.primaryText}}
 
-                        />
-                    </ListItem>
-                    <ListItem dense button className={classes.chatItem2} onClick={this.openChat}>
-                    <ListItemText 
-                            primary="I am great, and you???"
-                            secondary="Sunday, 4:50pm"
-                            classes={{primary:classes.primaryText, secondary:classes.secondaryText}}
-
-                        />
-                    <Avatar alt="friend" src="http://www.geonames.org/flags/x/uk.gif" />
-                    </ListItem>
-                </List>
-                <List className={classes.inputStyle}>
-                    <ListItem>
-                        <TextField
-                                id="textarea"
-                                label="Message"
-                                multiline
-                                className={classes.textField}
-                                margin="normal"
-                            />
-                        <IconButton  color="default" className={classes.button}>
-                            <Icon className={classes.rightIcon}>send</Icon>
-                        </IconButton>
-                    </ListItem>
-                </List>
+                                    />
+                                    {/* <ListItemIcon>
+                                        <Icon className={classes.icon}>
+                                        person
+                                        </Icon>
+                                    </ListItemIcon> */}
+                            </ListItem>
+                            </Link>
+                        )}
+                    </List>
+                </Grid>
             </Grid>
-        </Grid>
         )
     }else{
         return(
