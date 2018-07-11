@@ -72,7 +72,7 @@ class FriendsSearch extends Component {
 
     sendFriendRequest = (event) => {
         const friendId = event.target.parentNode.id;
-        console.log("id ", event.target.parentNode.id);
+        console.log("id!!!!!!!!! ", event.target.parentNode.id);
         API.sendFriendRequest(event.target.parentNode.id)
         .then(res=> console.log(res))
         .catch(err=> console.log(err))
