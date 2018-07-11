@@ -12,6 +12,7 @@ import Friends from "./pages/Friends";
 import API from "./utils/API";
 import FriendProfile from "./pages/FriendProfile";
 import MessagesPage from "./pages/MessagesPage";
+import Messages from "./components/Messages";
 //socket
 import openSocket from "socket.io-client";
 const socket = openSocket("http://localhost:8000");
@@ -64,7 +65,9 @@ class App extends React.Component {
         <Route exact path="/search" component={FriendsSearch}/>
         <Route exact path="/friends" component={Friends}/>
         <Route path="/user/:id" component={FriendProfile}/>
-        <Route exact path="/messages" component={MessagesPage}/>
+        <Route exact path="/messages" render={() => <div><MessagesPage socket={socket} /></div>}/>
+        <Route path="/messages/:id" component={Messages} socket={socket}/>  
+        {/* <Route path="/messages/:id" render={() => <div><Messages socket={socket}/></div>}/>    */}
       </Switch>
       </HomeNavbar>
     );
