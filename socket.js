@@ -1,4 +1,5 @@
 const db=require("./models");
+const io = require("socket.io")();
 
 module.exports = function(socket){
 
@@ -34,5 +35,29 @@ module.exports = function(socket){
         // .then((dbUser)=>console.log("user disconnected :( !!!"))
         // .catch(err=> console.log(err));
         
+    })
+
+    socket.on("join room", function(data){
+        if(data.chatId){
+        console.log("Chatroom joined ", data.chatId);
+        socket.join(data.chatId);
+        }
+    })
+
+    socket.on("leave room", function(data){
+        if(data.chatId){
+            console.log("Left room");
+            socket.leave(data.chatId);
+        }
+    })
+
+    socket.on("send msg", function(data){
+        if(data.chatId && data.message && data.name) {
+            console.log("passed message info to socket.js");
+            // socket.broadcast.to(data.chatId).emit("new_msg", {msg:data.message}); use this later for letting a person now that he got new msg
+            //this will only broadcast to who you send , not to you
+
+            socket.broadcast.to(data.chatId).emit("receivedMsg", {msg: data.message});
+        }
     })
   };
