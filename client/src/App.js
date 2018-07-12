@@ -59,15 +59,16 @@ class App extends React.Component {
 
   loggedInRoutes() {
     return (
-    <HomeNavbar logOut={this.logOut}>
+    <HomeNavbar logOut={this.logOut} socket={socket}>
       <Switch>
         <Route exact path="/" render={() => <div><Home socket={socket} /></div>}/>
         <Route exact path="/search" component={FriendsSearch}/>
         <Route exact path="/friends" component={Friends}/>
         <Route path="/user/:id" component={FriendProfile}/>
         <Route exact path="/messages" render={() => <div><MessagesPage socket={socket} /></div>}/>
-        <Route path="/messages/:id" component={Messages} socket={socket}/>  
-        {/* <Route path="/messages/:id" render={() => <div><Messages socket={socket}/></div>}/>    */}
+        <Route path="/messages/:id" render={({ match }) => <Messages match={match} socket={socket}/>}/>
+        {/* <Route path="/messages/:id" component={Messages} socket={socket}/> */}
+        {/* <Route path="/messages/:id" render={props => <Messages socket={socket}/>}/> */}
       </Switch>
       </HomeNavbar>
     );
