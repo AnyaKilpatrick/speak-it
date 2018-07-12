@@ -133,6 +133,7 @@ const styles = theme => ({
 class HomeNavbar extends React.Component {
   state = {
     // user:{},
+    userId:"",
     user:null,
     countries: Countries,
     countryCode:"",
@@ -166,11 +167,28 @@ class HomeNavbar extends React.Component {
       }
       const src = "http://www.geonames.org/flags/x/"+countryCode.toLowerCase()+".gif"
 
-      this.setState({ 
-        user: getUser(),
-        countryCode: countryCode,
-        imageSrc: src
-      });
+      API.checkLoggedInUser()
+      .then((res)=>{
+          console.log("ID", res.data._id);
+          this.setState({
+            userId:res.data._id,
+            user: getUser(),
+            countryCode: countryCode,
+            imageSrc: src
+          }, ()=>{
+              this.props.socket.emit("user is online", {userId: this.state.userId});
+              console.log('sent "user is online" event to the server');
+          })
+      })
+      .catch(err=>console.log(err));
+
+      // this.setState({ 
+      //   user: getUser(),
+      //   countryCode: countryCode,
+      //   imageSrc: src
+      // },()=>{
+      //   console.log("HOMENAVBAR user", this.state.user);
+      // });
       
     }
   }
