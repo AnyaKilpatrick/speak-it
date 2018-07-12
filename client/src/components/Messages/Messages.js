@@ -19,7 +19,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import API from "../../utils/API";
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import { getUser } from '../../utils/Auth';
 
 const styles = theme => ({
       primaryText: {
@@ -96,17 +96,15 @@ class Messages extends Component {
         chatId: "",
         myId:"",
         friendInfo:{},
+        myInfo:{},
         messages:[],
-
+        text:""
     }
 
-    sendMessage = event => {
-        alert("sent message");
-    
-    }
-
-    componentDidMount= () => {
+    componentDidMount() {
+        console.log("hmm", this.props);
         const {match:{params}} = this.props;
+        
         console.log(params.id);
         const chatId=params.id;
         API.loadMessages(chatId)
@@ -125,74 +123,119 @@ class Messages extends Component {
                     chatId: params.id,
                     myId: res.data.myId,
                     friendInfo:  newChatInfo.participants[0],
+                    myInfo: getUser(),
                     messages:res.data.chatInfo[0].messages,
                     loaded: true
                 },()=>{
                     console.log("STATE", this.state);
+                    this.props.socket.emit("join room", {chatId: this.state.chatId});
                 })
             }
         })
         .catch(err=>console.log(err));
+
+        // configure component to add new messages to the list when it receives one
+        this.props.socket.on("receivedMsg", (data) => {
+
+            console.log(data.msg);
+            let array = [...this.state.messages];
+            let msgInfo = {
+                author: "",
+                text: data.msg,
+                time: "just now"
+            }
+            array.push(msgInfo);
+            
+            this.setState({messages: array}, ()=>{
+                console.log("updated messages", this.state.messages);
+            });
+        });
     }
+
+    componentWillUnmount(){
+        this.props.socket.emit("leave room", {chatId: this.state.chatId});
+    }
+
+    handleChange = event => {
+        const {value} = event.target;
+        this.setState({text: value}, ()=>{
+            // console.log(this.state.text);
+        })
+    }
+
+    sendMessage = () => {
+        const object = {
+            chatId: this.state.chatId,
+            message: this.state.text,
+            name: this.state.myInfo.fullname
+        }
+        this.props.socket.emit("send msg", object);
+    }
+
+
 
     render(){
         const { classes } = this.props;
         if(this.state.loaded === true){
-        return(
-            <Grid container direction="row" justify="center" alignItems="center">
-            <Grid item xs={12} sm={8} m={6} lg={6} className={classes.chatDiv}>
-                <List>
-                    <ListItem className={classes.listItem}>
-                        <Tooltip id="tooltip-fab" title="Go back">
-                        <Link to="/messages">
-                            {/* <IconButton aria-label="go back" onClick={this.goBack}> */}
-                                <Icon className={classes.arrowIcon}>arrow_left</Icon>
-                            {/* </IconButton> */}
-                            </Link>
-                        </Tooltip>
-                        <ListItemText
-                                primary="Your friend's name"
-                                classes={{primary:classes.header}}
-                            />
-                    </ListItem>
-                    {/* loop through messages here */}
-                    <ListItem dense button onClick={this.openChat}>
-                    <Avatar alt="friend" src="http://www.geonames.org/flags/x/uk.gif" />
-                    <ListItemText 
-                            primary="Hi, how are you???"
-                            secondary="Sunday, 4:50pm"
-                            classes={{primary:classes.primaryText, secondary:classes.secondaryText}}
+            return(
+                <Grid container direction="row" justify="center" alignItems="center">
+                <Grid item xs={12} sm={8} m={6} lg={6} className={classes.chatDiv}>
+                    <List>
+                        <ListItem className={classes.listItem}>
+                            <Tooltip id="tooltip-fab" title="Go back">
+                            <Link to="/messages">
+                                {/* <IconButton aria-label="go back" onClick={this.goBack}> */}
+                                    <Icon className={classes.arrowIcon}>arrow_left</Icon>
+                                {/* </IconButton> */}
+                                </Link>
+                            </Tooltip>
+                            <ListItemText
+                                    primary="Your friend's name"
+                                    classes={{primary:classes.header}}
+                                />
+                        </ListItem>
+                        {this.state.messages.map((message, index)=>
+                            <ListItem key={index} ense button>
+                                <Avatar alt="friend" src="http://www.geonames.org/flags/x/uk.gif" />
+                                <ListItemText 
+                                        primary={message.text}
+                                        secondary={message.time}
+                                        classes={{primary:classes.primaryText, secondary:classes.secondaryText}}
+                                    />
+                            </ListItem>
+                        )}
 
-                        />
-                    </ListItem>
-                    <ListItem dense button className={classes.chatItem2} onClick={this.openChat}>
-                    <ListItemText 
-                            primary="I am great, and you???"
-                            secondary="Sunday, 4:50pm"
-                            classes={{primary:classes.primaryText, secondary:classes.secondaryText}}
+                        {/* 
+                        <ListItem dense button className={classes.chatItem2} onClick={this.openChat}>
+                        <ListItemText 
+                                primary="I am great, and you???"
+                                secondary="Sunday, 4:50pm"
+                                classes={{primary:classes.primaryText, secondary:classes.secondaryText}}
 
-                        />
-                    <Avatar alt="friend" src="http://www.geonames.org/flags/x/uk.gif" />
-                    </ListItem>
-                </List>
-                <List className={classes.inputStyle}>
-                    <ListItem>
-                        <TextField
-                                id="textarea"
-                                label="Message"
-                                multiline
-                                className={classes.textField}
-                                margin="normal"
                             />
-                        <IconButton  color="default" className={classes.button} onClick={this.sendMessage}>
-                            <Icon className={classes.rightIcon}>send</Icon>
-                        </IconButton>
-                    </ListItem>
-                </List>
+                        <Avatar alt="friend" src="http://www.geonames.org/flags/x/uk.gif" />
+                        </ListItem> */}
+                    </List>
+                    <List className={classes.inputStyle}>
+                        <ListItem>
+                            <TextField
+                                    id="textarea"
+                                    label="Message"
+                                    multiline
+                                    className={classes.textField}
+                                    margin="normal"
+                                    value={this.state.text}
+                                    onChange={this.handleChange}
+                                />
+                            <IconButton  color="default" className={classes.button} onClick={this.sendMessage}>
+                                <Icon className={classes.rightIcon}>send</Icon>
+                            </IconButton>
+                        </ListItem>
+                    </List>
+                </Grid>
             </Grid>
-        </Grid>
-        )
-    }else if(this.state.loaded === false){
+            )
+        }else if(this.state.loaded === false){
             return(
                 <Grid container direction="row" justify="center" alignItems="center">
                     <Grid item>
