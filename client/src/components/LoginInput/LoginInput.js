@@ -22,11 +22,16 @@ import Button from '@material-ui/core/Button';
 
 const styles = (theme) => ({
     inputColumn: {
-        marginRight: 20
+        // marginRight: 20
+        [theme.breakpoints.up('sm')]: {
+            marginRight:20
+        }
     },
     loginBtn: {
         marginTop: 15
-    }
+    },
+
+        // [theme.breakpoints.down('md')]: {
 });
 
 class LoginInput extends Component {
@@ -85,16 +90,17 @@ class LoginInput extends Component {
         return (
             <div>
                 <Grid container direction="row" alignItems="center" justify="center">
-                    <Grid item lg={2} className={this.props.classes.inputColumn}> 
+                    <Grid item xs={7} sm={3} md={2} lg={2} xl={1} className={this.props.classes.inputColumn}> 
                         <TextField 
                             id="input-with-icon-grid"
                             label="Username"
                             name="username"
                             value={this.state.username}
-                            onChange={this.handleChange} 
+                            onChange={this.handleChange}
+                            className={this.props.usernameInput} 
                         fullWidth/>
                     </Grid>
-                    <Grid item lg={2}>
+                    <Grid item xs={7} sm={3} md={2} lg={2} xl={1}>
                         <FormControl fullWidth>
                             <InputLabel htmlFor="adornment-password">Password</InputLabel>
                             <Input
@@ -119,12 +125,12 @@ class LoginInput extends Component {
                     </Grid>
                 </Grid>
                 <Grid container direction="row" alignItems="center" justify="center">
-                <Grid item s={12} m={6} lg={1}>
+                <Grid item xs={7} sm={3} md={2} lg={1} xl={1}>
                     <Button onClick={this.loginUser} className={this.props.classes.loginBtn} >
                         Log In
                     </Button>
                 </Grid>
-                <Grid item s={12} m={6} lg={3}>
+                <Grid item xs={7} sm={3} md={2} lg={2} xl={1}>
                     <Button href="/app/signup" className={this.props.classes.loginBtn}>
                         Don't have account?
                     </Button>
