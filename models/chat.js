@@ -6,7 +6,10 @@ const chatSchema = new Schema({
     participants:[{type: Schema.Types.ObjectId, ref: "User"}],
     messages:[
         {
-            author: {
+            authorName: {
+                type:String
+            },
+            authorId:{
                 type:String
             },
             text: {
