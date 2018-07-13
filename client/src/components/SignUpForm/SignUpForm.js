@@ -1,7 +1,7 @@
 import React, {Component} from "react";
+import { Redirect, Link } from "react-router-dom";
 import "./SignUpForm.css";
 import API from "./../../utils/API";
-import { Redirect } from "react-router-dom";
 import { withStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -22,6 +22,8 @@ const styles = theme => ({
     textField: {
       marginLeft: theme.spacing.unit,
       marginRight: theme.spacing.unit,
+      marginTop:0,
+      marginBottom:0
     
     },
     myInputs: {
@@ -41,17 +43,19 @@ const styles = theme => ({
         marginLeft:10
     },
     myBtn: {
-        marginTop:20,
-        marginBottom: 20,
-        background: "linear-gradient(45deg, rgba(92, 31, 94, 0.466) 30%, rgb(31, 30, 29) 90%)",
-        boxShadow: "0 3px 5px 2px rgba(69, 29, 82, 0.3)",
-        color:"white"
+        // marginTop:20,
+        // marginBottom: 20,
+        // background: "linear-gradient(45deg, rgba(92, 31, 94, 0.466) 30%, rgb(31, 30, 29) 90%)",
+        // boxShadow: "0 3px 5px 2px rgba(69, 29, 82, 0.3)",
+        background:"rgba(0, 0, 0, 0.027)",
+        color:"grey"
     },
     formControl: {
         // margin: theme.spacing.unit,
-        marginTop:22,
-        minWidth: 120,
-        maxWidth:230
+        // marginTop:22,
+        // minWidth: 120,
+        // maxWidth:230,
+        width:"100%"
         // marginLeft
     },
     selectEmpty: {
@@ -60,7 +64,18 @@ const styles = theme => ({
     root: {
         display: 'flex',
         flexWrap: 'wrap',
-    }
+    },
+    link:{
+        marginTop:5,
+        textDecoration: "none",
+        color:"black",
+        // fontSize: 15
+    },
+    // btnGrid:{
+    //     paddingTop:0,
+    //     paddingBottom:0,
+    //     height:30
+    // }
   });
 
 class SignUpForm extends Component {
@@ -118,11 +133,11 @@ class SignUpForm extends Component {
 		}
         return(
             <Grid container direction="row" alignItems="center" justify="center">
-                <Grid item lg={5}>
-                    <Grid id="form" container direction="row" justify="center">
+                <Grid item xs={11} sm={10} md={6} lg={5} xl={4}>
+                    <Grid id="form" container spacing={16} direction="row" alignItems="center" justify="center">
                         {/* <form fullWidth noValidate autoComplete="off"> */}
                             {/* FULL NAME */}
-                            <Grid item lg={5}>
+                            <Grid item xs={10} sm={5} md={5} lg={5}>
                             <TextField
                             onChange={this.handleChange}
                             name="fullname"
@@ -132,10 +147,11 @@ class SignUpForm extends Component {
                             margin="normal"
                             InputProps={inputStyles}
                             InputLabelProps={inputLabel}
+                            fullWidth
                             />
                             </Grid>
                             {/* USERNAME */}
-                            <Grid item lg={5}>
+                            <Grid item xs={10} sm={5} md={5} lg={5}>
                             <TextField
                             onChange={this.handleChange}
                             name="username"
@@ -145,10 +161,11 @@ class SignUpForm extends Component {
                             margin="normal"
                             InputProps={inputStyles}
                             InputLabelProps={inputLabel}
+                            fullWidth
                             />
                             </Grid>
                             {/* LANGUAGE */}
-                            <Grid item lg={5}>
+                            <Grid item xs={10} sm={5} md={5} lg={5}>
                             <TextField
                             onChange={this.handleChange}
                             name="nativeLang"
@@ -159,13 +176,15 @@ class SignUpForm extends Component {
                             margin="normal"
                             InputProps={inputStyles}
                             InputLabelProps={inputLabel}
+                            fullWidth
                             />
                             </Grid>
                             {/* COUNTRY */}
-                            <Grid item lg={5}>
-                            <FormControl className={this.props.classes.formControl}>
-                                <InputLabel className={this.props.classes.selectLabel}>Country</InputLabel>
+                            <Grid item xs={10} sm={5} md={5} lg={5} >
+                            <FormControl className={this.props.classes.formControl} fullWidth>
+                                <InputLabel className={this.props.classes.selectLabel} fullWidth>Country</InputLabel>
                                 <Select
+                                fullWidth
                                 native
                                 onChange={this.handleChange}
                                 name="country"
@@ -183,7 +202,7 @@ class SignUpForm extends Component {
                             </FormControl>
                             </Grid>
                             {/* AGE */}
-                            <Grid item lg={5}>
+                            <Grid item xs={10} sm={5} md={5} lg={5}>
                             <TextField
                             onChange={this.handleChange}
                             name="age"
@@ -195,10 +214,11 @@ class SignUpForm extends Component {
                             margin="normal"
                             InputProps={inputStyles}
                             InputLabelProps={inputLabel}
+                            fullWidth
                             />
                             </Grid>
                             {/* Password */}
-                            <Grid item lg={5}>
+                            <Grid item xs={10} sm={5} md={5} lg={5}>
                             <TextField
                             onChange={this.handleChange}
                             name="password"
@@ -210,10 +230,11 @@ class SignUpForm extends Component {
                             margin="normal"
                             InputProps={inputStyles}
                             InputLabelProps={inputLabel}
+                            fullWidth
                             />
                             </Grid>
                             {/* About */}
-                            <Grid item lg={10}>
+                            <Grid item xs={9} sm={10} md={10} lg={10} xl={9}>
                             <TextField
                             onChange={this.handleChange}
                             name="aboutUser"
@@ -226,17 +247,21 @@ class SignUpForm extends Component {
                             InputLabelProps={inputLabel}
                             />
                             </Grid>
-                            <Grid item lg={10} align="center">
+                            <Grid item xs={11} sm={11} md={11} lg={11} align="center" className={this.props.classes.btnGrid}>
                                 <Button 
                                     size="large" 
-                                    variant="outlined"
+                                    // variant="outlined"
                                     className={this.props.classes.myBtn}
-                                    color="primary"
-                                    href="#text-buttons"
+                                    // color="primary"
                                     onClick={this.saveNewUser}
                                     >
                                     Sign Up
                                 </Button>
+                            </Grid>
+                            <Grid item xs={10} sm={10} md={10} lg={10} align="center" className={this.props.classes.btnGrid}>
+                                <Link to="/" className={this.props.classes.link}>
+                                Already have account?
+                                </Link>
                             </Grid>
                     {/* </form> */}
                 </Grid>
