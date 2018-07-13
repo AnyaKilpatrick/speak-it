@@ -140,9 +140,9 @@ class Messages extends Component {
             console.log(data.msg);
             let array = [...this.state.messages];
             let msgInfo = {
-                author: "",
+                author: data.name,
                 text: data.msg,
-                time: "just now"
+                time: data.time
             }
             array.push(msgInfo);
             
@@ -167,7 +167,8 @@ class Messages extends Component {
         const object = {
             chatId: this.state.chatId,
             message: this.state.text,
-            name: this.state.myInfo.fullname
+            name: this.state.myInfo.fullname,
+            myId:this.state.myId
         }
         this.props.socket.emit("send msg", object);
     }
