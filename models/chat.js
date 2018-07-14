@@ -12,6 +12,9 @@ const chatSchema = new Schema({
             authorId:{
                 type:String
             },
+            authorCountry:{
+                type:String
+            },
             text: {
                 type:String
             },
