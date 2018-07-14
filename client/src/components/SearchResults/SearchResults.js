@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import API from "../../utils/API";
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -10,7 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Avatar from '@material-ui/core/Avatar';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
-import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import classNames from 'classnames';
@@ -39,9 +37,6 @@ const styles = theme => ({
     width:30,
     height:30,
     marginRight:"50%"
-  },
-  column: {
-    flexBasis: '33.33%',
   },
   column: {
     flexBasis: '33.33%',

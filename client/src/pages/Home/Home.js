@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import API from "./../../utils/API";
-import "./Home.css";
 
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
+import "./Home.css";
 import Map from "./../../components/Map";
 import MyProfile from "./../../components/MyProfile";
 
@@ -35,7 +31,6 @@ class Home extends Component {
 //   }
 
     render(){
-    const { classes, theme } = this.props;
         if (this.state.user){
             console.log("user user user "+ this.state.user);
             const user = JSON.parse(this.state.user);
