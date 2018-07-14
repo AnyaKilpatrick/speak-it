@@ -18,6 +18,7 @@ import Button from '@material-ui/core/Button';
 import API from "../../utils/API";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Redirect, Link } from "react-router-dom";
+import Countries from "./../../countries.json";
 
 const styles = theme => ({
 //   root: {
@@ -26,7 +27,8 @@ const styles = theme => ({
 //     backgroundColor: theme.palette.background.paper,
 //   },
   primaryText: {
-      fontWeight:"bold"
+      fontWeight:"bold",
+      color: "#565656"
   },
   secondaryText:{
     //don't know how to make smaller because by default it inherits a parent
@@ -71,15 +73,15 @@ chatItem2:{
       paddingTop:0,
       paddingBottom:0
   },
-  avatar:{
+  avatarOffline:{
     border:"solid 3px #b3b3b3",
     [theme.breakpoints.down('md')]: {
         width:20,
         height:20
     }
   },
-  avatar:{
-    border:"solid 3px #b3b3b3",
+  avatarOnline:{
+    border:"solid 3px #40b140",
     [theme.breakpoints.down('md')]: {
         width:20,
         height:20
@@ -90,6 +92,9 @@ chatItem2:{
     color:"grey",
     marginTop:40
   },
+  chatLink: {
+      textDecoration:"none"
+  }
 });
 
 class MessagesPage extends Component {
@@ -101,7 +106,8 @@ class MessagesPage extends Component {
         userId: "",
         loaded:false,
         completed:0,
-        directChatInfo: null
+        directChatInfo: null,
+        countries: Countries
     };
 
     componentDidMount() {
@@ -164,6 +170,17 @@ class MessagesPage extends Component {
     this.setState({ completed: completed >= 100 ? 0 : completed + 1 });
   };
 
+  loadAvatar = (country) => {
+    const countries = [...this.state.countries];
+    let countryCode;
+    for(let c=0;c<countries.length;c++){
+        if (countries[c].name === country){
+          countryCode = countries[c].code;
+        }
+      }
+      const src = "http://www.geonames.org/flags/x/"+countryCode.toLowerCase()+".gif"
+      return src;
+}
 
   render() {
     const { classes } = this.props;
@@ -181,11 +198,12 @@ class MessagesPage extends Component {
                                 />
                         </ListItem>
                         {this.state.allChats.map((chat, index)=>
-                            <Link to={"/messages/"+chat._id}>
+                            <Link key={index} to={"/messages/"+chat._id} className={classes.chatLink}>
                             <ListItem dense button key={index} id={chat._id} className={classes.listItem} onClick={this.openChat}>
-                                <Avatar alt="friend" src="http://www.geonames.org/flags/x/uk.gif" className={classes.avatar} />
+                                <Avatar alt="friend" src={this.loadAvatar(chat.participants[0].local.country)} 
+                                className={chat.participants[0].online === true? classes.avatarOnline : classes.avatarOffline} />
                                 <ListItemText 
-                                        primary={<Typography>{chat.participants[0].local.fullname}</Typography>}
+                                        primary={chat.participants[0].local.fullname}
                                         secondary="Hello, how are .."
                                         classes={{primary:classes.primaryText}}
 
@@ -204,7 +222,7 @@ class MessagesPage extends Component {
         )
     }else{
         return(
-            <Grid container direction="row" justify="center" alignItems="Center">
+            <Grid container direction="row" justify="center" alignItems="center">
                 <Grid item>
                     <CircularProgress
                     className={classes.progress}
