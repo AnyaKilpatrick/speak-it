@@ -1,22 +1,20 @@
 import React, {Component} from "react";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Redirect, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
 import Avatar from '@material-ui/core/Avatar';
 import Icon from '@material-ui/core/Icon';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import Moment from "moment";
+import Countries from "./../../countries.json";
+
 import API from "../../utils/API";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { getUser } from '../../utils/Auth';
@@ -75,13 +73,6 @@ const styles = theme => ({
             height:20
         }
       },
-      avatar:{
-        border:"solid 3px #b3b3b3",
-        [theme.breakpoints.down('md')]: {
-            width:20,
-            height:20
-        }
-      },
       progress: {
         margin: theme.spacing.unit * 2,
         color:"grey",
@@ -98,7 +89,8 @@ class Messages extends Component {
         friendInfo:{},
         myInfo:{},
         messages:[],
-        text:""
+        text:"",
+        countries: Countries
     }
 
     componentDidMount() {
@@ -137,12 +129,14 @@ class Messages extends Component {
         // configure component to add new messages to the list when it receives one
         this.props.socket.on("receivedMsg", (data) => {
 
-            console.log(data.msg);
+            console.log(data);
             let array = [...this.state.messages];
             let msgInfo = {
-                author: data.name,
-                text: data.msg,
-                time: data.time
+                authorName: data.authorName,
+                authroId:data.authorId,
+                authorCountry:data.authorCountry,
+                text: data.text,
+                time: new Date()
             }
             array.push(msgInfo);
             
@@ -168,9 +162,22 @@ class Messages extends Component {
             chatId: this.state.chatId,
             message: this.state.text,
             name: this.state.myInfo.fullname,
-            myId:this.state.myId
+            myId:this.state.myId,
+            country:this.state.myInfo.country
         }
         this.props.socket.emit("send msg", object);
+    }
+
+    loadAvatar = (country) => {
+        const countries = [...this.state.countries];
+        let countryCode;
+        for(let c=0;c<countries.length;c++){
+            if (countries[c].name === country){
+              countryCode = countries[c].code;
+            }
+          }
+        const src = "http://www.geonames.org/flags/x/"+countryCode.toLowerCase()+".gif"
+        return src;
     }
 
 
@@ -191,31 +198,40 @@ class Messages extends Component {
                                 </Link>
                             </Tooltip>
                             <ListItemText
-                                    primary="Your friend's name"
+                                    primary={this.state.friendInfo.local.fullname}
                                     classes={{primary:classes.header}}
                                 />
                         </ListItem>
                         {this.state.messages.map((message, index)=>
+                            message.authorId === this.state.friendInfo._id? 
                             <ListItem key={index} ense button>
-                                <Avatar alt="friend" src="http://www.geonames.org/flags/x/uk.gif" />
+                                <Avatar alt="friend" src={this.loadAvatar(message.authorCountry)} />
                                 <ListItemText 
                                         primary={message.text}
-                                        secondary={message.time}
+                                        secondary={Moment(message.time,"YYYY-MM-DD HH:mm Z").format("lll")}
                                         classes={{primary:classes.primaryText, secondary:classes.secondaryText}}
                                     />
                             </ListItem>
+                            :
+                            <ListItem key={index} className={classes.chatItem2} button>
+                            <ListItemText 
+                                    primary={message.text}
+                                    secondary={Moment(message.time,"YYYY-MM-DD HH:mm Z").format("lll")}
+                                    classes={{primary:classes.primaryText, secondary:classes.secondaryText}}
+                                />
+                            <Avatar alt="friend" src={this.loadAvatar(message.authorCountry)} />
+                            </ListItem>                                                
+                            // <ListItem dense button className={classes.chatItem2} onClick={this.openChat}>
+                            // <ListItemText 
+                            //         primary="I am great, and you???"
+                            //         secondary="Sunday, 4:50pm"
+                            //         classes={{primary:classes.primaryText, secondary:classes.secondaryText}}
+
+                            //     />
+                            // <Avatar alt="friend" src="http://www.geonames.org/flags/x/uk.gif" />
+                            // </ListItem>
+
                         )}
-
-                        {/* 
-                        <ListItem dense button className={classes.chatItem2} onClick={this.openChat}>
-                        <ListItemText 
-                                primary="I am great, and you???"
-                                secondary="Sunday, 4:50pm"
-                                classes={{primary:classes.primaryText, secondary:classes.secondaryText}}
-
-                            />
-                        <Avatar alt="friend" src="http://www.geonames.org/flags/x/uk.gif" />
-                        </ListItem> */}
                     </List>
                     <List className={classes.inputStyle}>
                         <ListItem>
