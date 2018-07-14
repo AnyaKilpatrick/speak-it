@@ -51,11 +51,12 @@ module.exports = function(socket){
         })
 
         socket.on("send msg", function(data){
-            if(data.chatId && data.message && data.name && data.myId) {
+            if(data.chatId && data.message && data.name && data.myId && data.country) {
                 console.log("passed message info to socket.js");
                 const object = {
                     authorName: data.name,
                     authorId: data.myId,
+                    authorCountry: data.country,
                     text:data.message
                 }
                 console.log("MSG OBJECT", object);
@@ -64,8 +65,8 @@ module.exports = function(socket){
                 .catch(err=> console.log(err));
                 // {$addToSet:{"local.friend": req.user._id}}
 
-                socket.broadcast.to(data.chatId).emit("receivedMsg", {msg: data.message});
-                socket.emit("receivedMsg", {msg: data.message});
+                socket.broadcast.to(data.chatId).emit("receivedMsg", object);
+                socket.emit("receivedMsg", object);
                 // io.in(data.chatId).emit("receiveMsg", {msg:data.message});
             }
         })
