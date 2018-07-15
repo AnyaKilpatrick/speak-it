@@ -31,12 +31,19 @@ const styles = theme => ({
     // color: theme.palette.text.secondary,
     fontFamily: "'Cabin Sketch', cursive",
     color:"#0B0B3B",
+    ['@media (max-width:795px)']: { //!!!!!!!!!!!!!!!!!
+      fontSize:20
+    },
+    ['@media (max-width:550px)']: { //!!!!!!!!!!!!!!!!!
+      fontSize:16,
+      // marginRight:60
+    }
     // fontWeight: "bold"
   },
   myAvatar: {
     width:30,
     height:30,
-    marginRight:"50%"
+    marginRight:"30%"
   },
   column: {
     flexBasis: '33.33%',
@@ -60,6 +67,11 @@ const styles = theme => ({
   icon: {
     color: "white"
   },
+  // expendBtn:{
+  //   position:"relative",
+  //   top: -10,
+  //   left: 10
+  // }
 });
 
 class SearchResults extends Component {
@@ -82,7 +94,7 @@ class SearchResults extends Component {
     return (
       <div className={classes.root}>
         <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon className={classes.expendBtn}/>}>
             {/* <Typography className={classes.heading}> */}
                 <Avatar alt="avatar" src={this.props.resultAvatar} classes={{root:classes.myAvatar}}/>
             {/* </Typography> */}

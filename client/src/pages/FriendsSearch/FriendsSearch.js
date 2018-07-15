@@ -100,11 +100,12 @@ class FriendsSearch extends Component {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item lg={8}>
+                <Grid item xs={12} sm={10} md={8} lg={8}>
                     <Grid container direction="column">
-                        <Grid item s={12} m={12} lg={10}>
+                        <Grid item xs={12} sm={12} md={12} lg={12}>
                         {this.state.results.map((user, index) =>
                             <SearchResults
+                            fullWidth
                             key={index}
                             sendFriendRequest={this.sendFriendRequest}
                             userLanguage={user.local.nativeLang}
