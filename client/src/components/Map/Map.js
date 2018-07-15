@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import { VectorMap } from "react-jvectormap";
 import "./Map.css";
 import Tooltip from '@material-ui/core/Tooltip';
+import API from "../../utils/API";
 
 class Map extends Component {
 
@@ -15,7 +16,7 @@ class Map extends Component {
                     containerStyle={{
                         width: '100%',
                         height: '100%',
-                        marginTop: -120
+                        // marginTop: 
                     }}
                     regionStyle= {{
                         initial: {
@@ -47,6 +48,7 @@ class Map extends Component {
                         // el.html(el.html(el[0].innerHTML));
                         // console.log(el[0]);
                         el[0].style.zIndex = 1000;
+                        // API.countryInformation(el[0].innerHTML).then(res=>console.log("res",res.data)).catch(err=>console.log(err));
                     }}
                     // onRegionLabelShow={ function(event, label, code){
                     //     // el.html(el.html(el[0].innerHTML));

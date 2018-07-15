@@ -1,6 +1,10 @@
 import axios from "axios";
 
 export default {
+    countryInformation: function(country){
+        return axios.get("https://restcountries.eu/rest/v2/name/"+country+"?fullText=true");
+        console.log("https://restcountries.eu/rest/v2/name/"+country+"?fullText=true");
+    },
     saveNewUser: function(userObject){
         return axios.post("/app/signup", userObject);
     },
