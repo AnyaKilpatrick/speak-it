@@ -1,5 +1,6 @@
 #myAvatar {
     width:100%;
+    border-radius:15px;
     height:auto;
     border: solid 4px rgba(70, 67, 67, 0.822);
     margin-top: 100px;
