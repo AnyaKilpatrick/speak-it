@@ -12,7 +12,6 @@ import IconButton from '@material-ui/core/IconButton';
 
 
 
-
 import FolderIcon from '@material-ui/icons/Folder';
 
 import Icon from '@material-ui/core/Icon';
@@ -37,16 +36,23 @@ const styles = theme => ({
     color: "rgba(17, 7, 88, 0.87)",
     fontWeight: 550,
     fontFamily: "'Cabin Sketch', cursive",
-    fontSize: 28
+    fontSize: 28,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 12,
+      fontWeight:"bold"
+    }
   },
-  ivonBtn:{
-    backgroundColor:"blue"
+  iconBtn:{
+    [theme.breakpoints.down('md')]: {
+      width:20,
+      height:20
+    }
   }
 });
 
 class FriendList extends Component {
   state = {
-    secondary: false,
+    secondary: false
   };
 
   render() {
@@ -59,9 +65,7 @@ class FriendList extends Component {
             root: classes.listItem
         }}>
             <ListItemAvatar>
-                <Avatar>
-                <FolderIcon />
-                </Avatar>
+                <Avatar alt="flag" className={this.props.avatarCSS} src={this.props.loadAvatar}/>
             </ListItemAvatar>
             <ListItemText 
                 classes = {{
@@ -72,7 +76,7 @@ class FriendList extends Component {
             />
             <ListItemSecondaryAction>
               <Tooltip id="tooltip-fab" title="View Profile">
-                  <IconButton classname={classes.iconBtn} href={"/user/"+this.props.profileId} aria-label="view profile">
+                  <IconButton className={classes.iconBtn} href={"/user/"+this.props.profileId} aria-label="view profile">
                     <Icon>chrome_reader_mode</Icon>
                   </IconButton>
               </Tooltip>

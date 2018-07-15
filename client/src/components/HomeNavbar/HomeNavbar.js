@@ -45,13 +45,15 @@ const styles = theme => ({
   },
   appBar: {
     backgroundColor: "rgba(255, 255, 255, 0)",
-    zIndex: theme.zIndex.drawer + 1,
+    zIndex: theme.zIndex.drawer + 3,
+    height: 63,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
   appBarShift: {
+    zIndex:-1,
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
@@ -76,6 +78,9 @@ const styles = theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+    ['@media (max-width:460px)']: { //!!!!!!!!!!!!!!!!!
+      width:"90vw"
+    }
   },
   drawerPaperClose: {
     color:"white",
@@ -95,7 +100,8 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: '0 8px',
-    ...theme.mixins.toolbar,
+    ...theme.mixins.toolbar
+    // zIndex:+5
   },
   navbarText:{
     color: "white"
@@ -104,6 +110,14 @@ const styles = theme => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
+  },
+  contentHide: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing.unit * 3,
+    ['@media (max-width:460px)']: { //!!!!!!!!!!!!!!!!!
+      display:"none"
+    }
   },
   icon: {
     color: "white"
@@ -118,7 +132,24 @@ const styles = theme => ({
       position: "absolute",
       right: "45%",
       fontSize:50,
-      fontFamily: "'Cabin Sketch', cursive"
+      fontFamily: "'Cabin Sketch', cursive",
+      [theme.breakpoints.down('sm')]: {
+        right:"5%"
+      },      
+  },
+  hideLogo:{
+    color: "black",
+    position: "absolute",
+    right: "45%",
+    fontSize:50,
+    fontFamily: "'Cabin Sketch', cursive",
+    [theme.breakpoints.down('sm')]: {
+      right:"5%"
+    },  
+    [theme.breakpoints.down('xs')]: {
+      right:"5%",
+      display:"none"
+    },
   },
   myAvatar: {
     width:30,
@@ -220,7 +251,8 @@ class HomeNavbar extends React.Component {
             >
             <MenuIcon/>
             </IconButton>
-            <Typography variant="title" color="inherit" noWrap className={classes.logo}>
+            <Typography variant="title" color="inherit" noWrap 
+              className={this.state.openNav === false? classes.logo : classes.hideLogo}>
               SpeakIT
             </Typography>
           </Toolbar>
@@ -285,7 +317,7 @@ class HomeNavbar extends React.Component {
                 {this.listItemLink('/search', 'Search', 'search')}
             </List>
         </Drawer>
-        <main id="mainContainer" className={classes.content}>
+        <main id="mainContainer" className={this.state.openNav===false? classes.content:classes.contentHide}>
           {/* <div className={classes.toolbar} /> */}
           {/* <Typography noWrap>{'You think water moves fast? You should see ice.'}</Typography> */}
           {this.props.children}

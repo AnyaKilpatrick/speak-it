@@ -9,13 +9,67 @@ import Icon from '@material-ui/core/Icon';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import { getUser } from '../../utils/Auth';
+import Countries from "./../../countries.json";
 
-const styles = {
+const styles = theme=> ({
     root: {
-      width: 800,
-      margin: "auto"
+        width: "60%",
+        margin: "auto",
+        [theme.breakpoints.down('md')]: {
+            width:"80%"
+        },
+        [theme.breakpoints.down('sm')]: {
+            width:"100%",
+            margin:0
+        },
+        [theme.breakpoints.down('xs')]: {
+            width:"100%",
+            margin:0,
+            height:80
+        }
     },
-  };
+    navigation:{
+        width:"60%",
+        margin:"auto",
+        [theme.breakpoints.down('md')]: {
+            width:"80%"
+        },
+        [theme.breakpoints.down('sm')]: {
+            width:"100%",
+            margin:0
+        },
+        [theme.breakpoints.down('xs')]: {
+            width:"100%",
+            margin:0,
+            height:80
+        }
+    },
+    avatarOffline:{
+        border:"solid 3px #b3b3b3",
+        [theme.breakpoints.down('md')]: {
+            width:20,
+            height:20
+        },
+        [theme.breakpoints.down('sm')]: {
+            width:15,
+            height:15
+        }
+    },
+      avatarOnline:{
+        border:"solid 3px #40b140",
+        [theme.breakpoints.down('md')]: {
+            width:20,
+            height:20
+        },
+        [theme.breakpoints.down('sm')]: {
+            width:15,
+            height:15
+        }
+    },
+    listCSS:{
+        width:"100%"
+    }
+  });
 
 class Friends extends Component {
 
@@ -25,7 +79,8 @@ class Friends extends Component {
         requests:[],
         currentArray:[],
         page: "friends",
-        disabled: false
+        disabled: false,
+        countries: Countries
     }
     showFriends = () => {
         this.setState({page: "friends"}, ()=>{
@@ -115,15 +170,26 @@ class Friends extends Component {
                 </Tooltip>
               )
         }
-        else if(this.state.page === "friends"){
-            return(
-                <Tooltip id="tooltip-fab" title="Delete Friend">
-                    <IconButton id={userId} aria-label="delete friend">
-                        <Icon>delete</Icon>
-                    </IconButton>
-                </Tooltip>
-              )
-        }
+        // else if(this.state.page === "friends"){
+        //     return(
+        //         <Tooltip id="tooltip-fab" title="Delete Friend">
+        //             <IconButton id={userId} aria-label="delete friend">
+        //                 <Icon>delete</Icon>
+        //             </IconButton>
+        //         </Tooltip>
+        //       )
+        // }
+    }
+    loadAvatar = (country) => {
+        const countries = [...this.state.countries];
+        let countryCode;
+        for(let c=0;c<countries.length;c++){
+            if (countries[c].name === country){
+              countryCode = countries[c].code;
+            }
+          }
+          const src = "http://www.geonames.org/flags/x/"+countryCode.toLowerCase()+".gif"
+          return src;
     }
 
     render(){
@@ -135,11 +201,14 @@ class Friends extends Component {
                     showFriends={this.showFriends}
                     showRequests={this.showRequests}
                     showSentRequests={this.showSentRequests}
+                    classes={{root: classes.navigation}}
                 />
                 <div className={classes.root}>
-                    <List>
+                    <List classes={{root:classes.listCSS}}>
                         {this.state.currentArray.map((friend, index)=>
                             <FriendList
+                            avatarCSS = {friend.online === true? classes.avatarOnline : classes.avatarOffline} 
+                            loadAvatar={this.loadAvatar(friend.local.country)}
                             profileId={friend._id}
                             userId = {friend._id}
                             key={index}
