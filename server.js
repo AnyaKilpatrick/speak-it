@@ -9,7 +9,7 @@ const io = require("socket.io")();
 // const routes = require("./routes");
 const app = express();
 const PORT = process.env.PORT || 3001;
-const socketPort = process.env.PORT || 8810;
+const socketPort = 8000;
 
 
 //setting up Passport
@@ -68,5 +68,3 @@ io.on("connection", require("./socket.js"));
 
 // const io = require("socket.io").listen(expressServer);
 // const peerServer = new PeerServer({port:9000, path:"/chat"});
-
-// "event-emitter": "^0.3.5", "material-ui-search-bar": "^0.4.2", "peerjs": "^0.3.14",
