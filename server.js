@@ -57,9 +57,7 @@ require("./routes")(app, passport);
 //   if (err) throw err
 //   console.log('listening on port '+ PORT)
 // })
-app.listen(PORT, function() {
-  console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
-});
+
 
 // var server = require("http").Server(app);
 // // var io = require("socket.io")(socketPort);
@@ -71,3 +69,9 @@ var io = require('socket.io').listen(server);
 io.on("connection", require("./socket.js"));
 // const io = require("socket.io").listen(expressServer);
 // const peerServer = new PeerServer({port:9000, path:"/chat"});
+// app.listen(PORT, function() {
+//   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
+// });
+server.listen(PORT, function() {
+  console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
+});
