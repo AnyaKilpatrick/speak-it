@@ -233,6 +233,7 @@ class Messages extends Component {
                                     className={classes.textField}
                                     margin="normal"
                                     value={this.state.text}
+                                    onChange={this.handleChange}
                                 />
                             <IconButton color="default" className={classes.button} onClick={this.sendMessage}>
                                 <Icon className={classes.rightIcon}>send</Icon>
