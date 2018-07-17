@@ -52,13 +52,13 @@ class LoginInput extends Component {
 
     handleChange = event => {
     const {name, value} = event.target
-    this.setState({ [name]: value });
+    this.setState({ [name]: value.trim() });
     // console.log(name + " " + value);
     };
 
     handleUsername = event => {
         console.log(event.target.name);
-        this.setState({username: event.target.value});
+        this.setState({username: event.target.value.trim()});
         console.log(this.state.username);
     }
 

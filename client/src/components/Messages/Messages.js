@@ -160,12 +160,13 @@ class Messages extends Component {
     sendMessage = () => {
         const object = {
             chatId: this.state.chatId,
-            message: this.state.text,
+            message: this.state.text.trim(),
             name: this.state.myInfo.fullname,
             myId:this.state.myId,
             country:this.state.myInfo.country
         }
         this.props.socket.emit("send msg", object);
+        this.setState({text:""});
     }
 
     loadAvatar = (country) => {
@@ -221,16 +222,6 @@ class Messages extends Component {
                                 />
                             <Avatar alt="friend" src={this.loadAvatar(message.authorCountry)} />
                             </ListItem>                                                
-                            // <ListItem dense button className={classes.chatItem2} onClick={this.openChat}>
-                            // <ListItemText 
-                            //         primary="I am great, and you???"
-                            //         secondary="Sunday, 4:50pm"
-                            //         classes={{primary:classes.primaryText, secondary:classes.secondaryText}}
-
-                            //     />
-                            // <Avatar alt="friend" src="http://www.geonames.org/flags/x/uk.gif" />
-                            // </ListItem>
-
                         )}
                     </List>
                     <List className={classes.inputStyle}>
@@ -242,9 +233,8 @@ class Messages extends Component {
                                     className={classes.textField}
                                     margin="normal"
                                     value={this.state.text}
-                                    onChange={this.handleChange}
                                 />
-                            <IconButton  color="default" className={classes.button} onClick={this.sendMessage}>
+                            <IconButton color="default" className={classes.button} onClick={this.sendMessage}>
                                 <Icon className={classes.rightIcon}>send</Icon>
                             </IconButton>
                         </ListItem>

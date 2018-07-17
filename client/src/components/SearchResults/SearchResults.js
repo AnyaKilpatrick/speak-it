@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import classNames from 'classnames';
 import Icon from '@material-ui/core/Icon';
-
+import API from "../../utils/API";
 
 
 const styles = theme => ({
@@ -77,6 +77,7 @@ const styles = theme => ({
 class SearchResults extends Component {
   state = {
     expanded: null,
+    userFriends:[]
   };
 
   handleChange = panel => (event, expanded) => {
@@ -84,8 +85,6 @@ class SearchResults extends Component {
       expanded: expanded ? panel : false,
     });
   };
-
-
 
   render() {
     const { classes } = this.props;

@@ -15,7 +15,7 @@ import MessagesPage from "./pages/MessagesPage";
 import Messages from "./components/Messages";
 //socket
 import openSocket from "socket.io-client";
-// const socket = openSocket("http://localhost:8000");
+// const socket = openSocket("http://localhost:3000");
 const socket = openSocket("https://speak-it-2.herokuapp.com/");
 
 

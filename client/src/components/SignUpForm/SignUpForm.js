@@ -99,7 +99,15 @@ class SignUpForm extends Component {
     saveNewUser = () => {
         
         const {fullname, username, nativeLang, country, age, password, aboutUser} = this.state;
-        const userObject = { password, username, fullname, nativeLang, country, age, aboutUser};
+        const userObject = { 
+            password: password.trim(), 
+            username: username.trim(), 
+            fullname:fullname.trim(), 
+            nativeLang: nativeLang.trim(), 
+            country, 
+            age, 
+            aboutUser:aboutUser.trim()
+        };
         API.saveNewUser(userObject)
             .then(res=>{
                 console.log("saved "+ JSON.stringify(res));

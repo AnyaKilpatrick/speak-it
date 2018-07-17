@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import Countries from "./../../countries.json";
-
+import Select from '@material-ui/core/Select';
 import API from "./../../utils/API";
 
 const styles = theme => ({
@@ -22,9 +22,6 @@ const styles = theme => ({
     },
     formControl: {
       margin: theme.spacing.unit
-    },
-    searchInput: {
-        background: "rgba(204, 204, 204, 0.774)"
     },
     searchH1:{
         color:"red"
@@ -76,8 +73,7 @@ class FriendsSearch extends Component {
         API.sendFriendRequest(event.target.parentNode.id)
         .then(res=> console.log(res))
         .catch(err=> console.log(err))
-      }
-
+    }
         
     render(){
         const { classes } = this.props;
@@ -90,7 +86,24 @@ class FriendsSearch extends Component {
                         </Grid>
                         <Grid item lg={12}>
                         <FormControl className={classes.formControl} fullWidth>
-                            <Input role="combobox" id="name-simple" className={classes.searchInput} value={this.state.country} onChange={this.handleChange} fullWidth/>
+                            {/* <Input role="combobox" id="name-simple" className={classes.searchInput} value={this.state.country} onChange={this.handleChange} fullWidth/> */}
+                            {/* <InputLabel className={this.props.classes.selectLabel} fullWidth>Country</InputLabel> */}
+                                <Select
+                                fullWidth
+                                native
+                                onChange={this.handleChange}
+                                name="country"
+                                value={this.state.country}
+                                // label="Country"
+                                className={this.props.classes.searchInput}
+                                // margin="normal"
+                                // InputProps={inputStyles}
+                                >
+                                <option value="" />
+                                {this.state.countries.map((option)=>
+                                    <option value={option.name} key={option.code}>{option.name}</option>
+                                )}/>
+                                </Select>
                             <FormHelperText>search by country name</FormHelperText>
                         </FormControl>
                         <Button aria-label="delete" className={classes.button} onClick={this.searchUsers}>

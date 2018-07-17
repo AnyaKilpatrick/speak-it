@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-
+import {Link} from "react-router-dom";
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -47,6 +47,15 @@ const styles = theme => ({
       width:20,
       height:20
     }
+  },
+  linkBtn:{
+    [theme.breakpoints.down('md')]: {
+      width:20,
+      height:20
+    },
+    color:"#696767",
+    position: "relative",
+    top:7
   }
 });
 
@@ -76,9 +85,11 @@ class FriendList extends Component {
             />
             <ListItemSecondaryAction>
               <Tooltip id="tooltip-fab" title="View Profile">
-                  <IconButton className={classes.iconBtn} href={"/user/"+this.props.profileId} aria-label="view profile">
+                  {/* <IconButton className={classes.iconBtn} href={"/user/"+this.props.profileId} aria-label="view profile"> */}
+                  <Link className={classes.linkBtn} to={"/user/"+this.props.profileId}>
                     <Icon>chrome_reader_mode</Icon>
-                  </IconButton>
+                  </Link>
+                  {/* </IconButton> */}
               </Tooltip>
               {this.props.children}
             </ListItemSecondaryAction>
