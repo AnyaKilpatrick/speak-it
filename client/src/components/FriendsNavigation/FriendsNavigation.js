@@ -13,6 +13,9 @@ const styles = {
     width: 800,
     margin: "auto"
   },
+  // icon:{
+  //     color:"pink"
+  // }
 };
 
 class FriendsNavigation extends Component {
@@ -35,7 +38,7 @@ class FriendsNavigation extends Component {
         showLabels
         className={classes.root}
       >
-        <BottomNavigationAction onClick={this.props.showFriends} label="Friends" icon={<Icon>group</Icon>} />
+        <BottomNavigationAction classes={{selected:classes.icon}} onClick={this.props.showFriends} label="Friends" icon={<Icon classes={{selected:classes.icon}}>group</Icon>} />
         <BottomNavigationAction onClick={this.props.showRequests} label="Friend Requests" icon={<Icon>assignment_returned</Icon>} />
         <BottomNavigationAction onClick={this.props.showSentRequests} label="Sent Requests" icon={<RestoreIcon />} />
       </BottomNavigation>
