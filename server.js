@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const io = require("socket.io")();
+// const io = require("socket.io")();
 
 // const server = app.listen(8000)
 // const routes = require("./routes")(app, passport);
@@ -62,9 +62,11 @@ app.listen(PORT, function() {
 });
 
 // var server = require("http").Server(app);
-// var io = require("socket.io")(socketPort);
-io.listen(socketPort);
-io.on("connection", require("./socket.js"));
+// // var io = require("socket.io")(socketPort);
+// io.listen(socketPort);
+// io.on("connection", require("./socket.js"));
 
+var server = require('http').Server(app);
+var io = require('socket.io').listen(server);
 // const io = require("socket.io").listen(expressServer);
 // const peerServer = new PeerServer({port:9000, path:"/chat"});
