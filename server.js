@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const io = require("socket.io")();
 
-const server = app.listen(8000)
+// const server = app.listen(8000)
 // const routes = require("./routes")(app, passport);
 
 // const routes = require("./routes");
