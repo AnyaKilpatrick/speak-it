@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import './App.css';
 import Login from "./pages/Login";
 import Home from "./pages/Home";
@@ -15,8 +15,8 @@ import MessagesPage from "./pages/MessagesPage";
 import Messages from "./components/Messages";
 //socket
 import openSocket from "socket.io-client";
-// const socket = openSocket("http://localhost:8000");
-const socket = openSocket("https://speak-it-2.herokuapp.com/");
+const socket = openSocket("http://localhost:8000");
+// const socket = openSocket("https://speak-it-2.herokuapp.com/");
 // const socket = openSocket("https://fathomless-plateau-88431.herokuapp.com");
 
 
@@ -69,6 +69,7 @@ class App extends React.Component {
         <Route path="/user/:id" component={FriendProfile}/>
         <Route exact path="/messages" render={() => <div><MessagesPage socket={socket} /></div>}/>
         <Route path="/messages/:id" render={({ match }) => <Messages match={match} socket={socket}/>}/>
+        <Redirect to={{pathname: '/'}}/>
         {/* <Route path="/messages/:id" component={Messages} socket={socket}/> */}
         {/* <Route path="/messages/:id" render={props => <Messages socket={socket}/>}/> */}
       </Switch>
@@ -82,7 +83,7 @@ class App extends React.Component {
       <Switch>
         <Route exact path="/" render={() => <div><Login onLogin={this.logIn} /></div>} />
         <Route exact path="/app/signup" component={SignUp}/>
-        <Route render={() => <div><Login onLogin={this.logIn} /></div>}/>
+        <Redirect to={{pathname: '/'}}/>
       </Switch>
       </div>
     );
