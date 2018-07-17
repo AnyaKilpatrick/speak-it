@@ -2,12 +2,14 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const io = require("socket.io")();
+
+const server = app.listen(8810)
 // const routes = require("./routes")(app, passport);
 
 // const routes = require("./routes");
 const app = express();
 const PORT = process.env.PORT || 3001;
-const socketPort = 3000;
+// const socketPort = 3000;
 
 
 //setting up Passport
@@ -61,6 +63,6 @@ app.listen(PORT, function() {
 
 io.on("connection", require("./socket.js"));
 
-io.listen(socketPort);
+io.listen(server);
 // const io = require("socket.io").listen(expressServer);
 // const peerServer = new PeerServer({port:9000, path:"/chat"});
