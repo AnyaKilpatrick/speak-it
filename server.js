@@ -9,7 +9,7 @@ const io = require("socket.io")();
 // const routes = require("./routes");
 const app = express();
 const PORT = process.env.PORT || 3001;
-// const socketPort = 3000;
+const socketPort = 8000;
 
 
 //setting up Passport
@@ -61,8 +61,8 @@ app.listen(PORT, function() {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });
 
-var server = require("http").Server(app);
-var io = require("socket.io")(server);
+// var server = require("http").Server(app);
+var io = require("socket.io")(socketPort);
 
 io.on("connection", require("./socket.js"));
 
