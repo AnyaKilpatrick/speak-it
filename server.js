@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const io = require("socket.io")();
 
-const server = app.listen(8810)
+const server = app.listen(8000)
 // const routes = require("./routes")(app, passport);
 
 // const routes = require("./routes");
@@ -61,9 +61,11 @@ app.listen(PORT, function() {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });
 
+var server = require("http").Server(app);
+var io = require("socket.io")(server);
+
 io.on("connection", require("./socket.js"));
 
-io.listen(server);
 // const io = require("socket.io").listen(expressServer);
 // const peerServer = new PeerServer({port:9000, path:"/chat"});
 
