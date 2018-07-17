@@ -133,7 +133,7 @@ class Messages extends Component {
             let array = [...this.state.messages];
             let msgInfo = {
                 authorName: data.authorName,
-                authroId:data.authorId,
+                authorId:data.authorId,
                 authorCountry:data.authorCountry,
                 text: data.text,
                 time: new Date()
