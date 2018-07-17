@@ -66,3 +66,5 @@ io.on("connection", require("./socket.js"));
 io.listen(server);
 // const io = require("socket.io").listen(expressServer);
 // const peerServer = new PeerServer({port:9000, path:"/chat"});
+
+// "event-emitter": "^0.3.5", "material-ui-search-bar": "^0.4.2", "peerjs": "^0.3.14",
