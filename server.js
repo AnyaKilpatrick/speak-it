@@ -9,7 +9,7 @@ const io = require("socket.io")();
 // const routes = require("./routes");
 const app = express();
 const PORT = process.env.PORT || 3001;
-const socketPort = 8000;
+const socketPort = process.env.PORT || 8000;
 
 
 //setting up Passport
