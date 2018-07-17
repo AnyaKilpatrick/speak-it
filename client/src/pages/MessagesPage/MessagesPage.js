@@ -204,9 +204,8 @@ class MessagesPage extends Component {
                                 className={chat.participants[0].online === true? classes.avatarOnline : classes.avatarOffline} />
                                 <ListItemText 
                                         primary={chat.participants[0].local.fullname}
-                                        secondary="Hello, how are .."
+                                        secondary={<Typography noWrap>{chat.messages[0]? chat.messages[chat.messages.length-1].text:"[empty chat]"}</Typography>}
                                         classes={{primary:classes.primaryText}}
-
                                     />
                                     {/* <ListItemIcon>
                                         <Icon className={classes.icon}>
