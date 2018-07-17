@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import "./LoginInput.css";
 import API from "./../../utils/API";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 //username input compenents
 import TextField from '@material-ui/core/TextField';
@@ -28,8 +28,15 @@ const styles = (theme) => ({
         }
     },
     loginBtn: {
-        marginTop: 15
+        marginTop: 25
     },
+    goToSignup:{
+        textDecoration:"none",
+        color:"grey",
+        position:"relative",
+        top: 12,
+        fontFamily: "'Cabin Sketch', cursive"
+    }
 
         // [theme.breakpoints.down('md')]: {
 });
@@ -131,9 +138,9 @@ class LoginInput extends Component {
                     </Button>
                 </Grid>
                 <Grid item xs={7} sm={3} md={2} lg={2} xl={1}>
-                    <Button href="/app/signup" className={this.props.classes.loginBtn}>
+                    <Link to="/app/signup" className={this.props.classes.goToSignup}>
                         Don't have account?
-                    </Button>
+                    </Link>
                 </Grid>
                 </Grid>
             </div>
