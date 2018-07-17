@@ -64,9 +64,10 @@ app.listen(PORT, function() {
 // var server = require("http").Server(app);
 // // var io = require("socket.io")(socketPort);
 // io.listen(socketPort);
-// io.on("connection", require("./socket.js"));
+
 
 var server = require('http').Server(app);
 var io = require('socket.io').listen(server);
+io.on("connection", require("./socket.js"));
 // const io = require("socket.io").listen(expressServer);
 // const peerServer = new PeerServer({port:9000, path:"/chat"});
