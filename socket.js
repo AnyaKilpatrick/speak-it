@@ -8,32 +8,18 @@ module.exports = function(socket){
                 db.User.findOneAndUpdate({_id: data.userId},{online:true,socketId:socket.id})
                 .then((dbUser)=>console.log("New client connected!!!!!!!!!!"))
                 .catch(err=>console.log(err));
-                // const userObj = {
-                //     userId: data.userId,
-                //     socketId: socket.id
-                // }
-                // db.OnlineUser.create(userObj)
-                // .then(dbUser=>console.log(dbUser))
-                // .catch(err=>console.error(err))
             }
         })
         socket.on("user is offline", function(){
             db.User.findOneAndUpdate({socketId: socket.id}, {online:false, socketId: null})
             .then((dbUser)=>console.log("user disconnected :( !!!"))
             .catch(err=>console.log(err));
-            // db.OnlineUser.remove({socketId:socket.id})
-            // .then((dbUser)=>console.log("user disconnected :( !!!"))
-            // .catch(err=> console.log(err));
         })
 
         socket.on("disconnect", function(){
             db.User.findOneAndUpdate({socketId: socket.id}, {online:false, socketId: null})
             .then((dbUser)=>console.log("user disconnected :( !!!"))
-            .catch(err=>console.log(err));
-            // db.OnlineUser.remove({socketId:socket.id})
-            // .then((dbUser)=>console.log("user disconnected :( !!!"))
-            // .catch(err=> console.log(err));
-            
+            .catch(err=>console.log(err));  
         })
 
         socket.on("join room", function(data){
@@ -64,7 +50,8 @@ module.exports = function(socket){
                 .then((dbMessage)=>console.log("successfully added new message",dbMessage))
                 .catch(err=> console.log(err));
                 // {$addToSet:{"local.friend": req.user._id}}
-
+                // const room = io.sockets.clients(data.chatId);
+                // console.log("room", room)
                 socket.broadcast.to(data.chatId).emit("receivedMsg", object);
                 socket.emit("receivedMsg", object);
                 // io.in(data.chatId).emit("receiveMsg", {msg:data.message});
