@@ -1,12 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-// const io = require("socket.io")();
 
-// const server = app.listen(8000)
-// const routes = require("./routes")(app, passport);
-
-// const routes = require("./routes");
 const app = express();
 const PORT = process.env.PORT || 3001;
 const socketPort = 8000;
@@ -18,9 +13,6 @@ const flash = require("connect-flash");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
-
-// const configDB = require("./config/database.js");
-
 
 
 require("./config/passport")(passport); //pass passport for configuration
@@ -53,22 +45,11 @@ require("./routes")(app, passport);
 // const expressServer = app.listen(PORT, function() {
 //   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 // });
-// server.listen(PORT, function (err) {
-//   if (err) throw err
-//   console.log('listening on port '+ PORT)
-// })
-
-
-// var server = require("http").Server(app);
-// // var io = require("socket.io")(socketPort);
-// io.listen(socketPort);
-
 
 var server = require('http').Server(app);
 var io = require('socket.io').listen(server);
-io.on("connection", require("./socket.js"));
-// const io = require("socket.io").listen(expressServer);
-// const peerServer = new PeerServer({port:9000, path:"/chat"});
+io.on("connection", require("./socket.js"));//importing socket.io methods
+
 // app.listen(PORT, function() {
 //   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 // });
