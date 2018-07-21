@@ -94,25 +94,23 @@ class SearchResults extends Component {
       <div className={classes.root}>
         <ExpansionPanel expanded={expanded === 'panel1'} onChange={this.handleChange('panel1')}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon className={classes.expendBtn}/>}>
-            {/* <Typography className={classes.heading}> */}
-                <Avatar alt="avatar" src={this.props.resultAvatar} classes={{root:classes.myAvatar}}/>
-            {/* </Typography> */}
+            <Avatar alt="avatar" src={this.props.resultAvatar} classes={{root:classes.myAvatar}}/>
             <Typography className={classes.secondaryHeading}>{this.props.userFullName}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.details}>
-          <div className={classes.column}>
-          <p  className={classes.resultPTag}><span className={classes.resultSpan}>Country:</span> {this.props.userCountry}</p>
-          <p className={classes.resultPTag}><span className={classes.resultSpan}>Language:</span> {this.props.userLanguage}</p>
-          </div>
-          <div className={classNames(classes.column2, classes.helper)}>
-          <p className={classes.resultPTag}><span className={classes.resultSpan}>About:</span> {this.props.userAbout}</p>
-          </div>
+            <div className={classes.column}>
+              <p  className={classes.resultPTag}><span className={classes.resultSpan}>Country:</span> {this.props.userCountry}</p>
+              <p className={classes.resultPTag}><span className={classes.resultSpan}>Language:</span> {this.props.userLanguage}</p>
+            </div>
+            <div className={classNames(classes.column2, classes.helper)}>
+              <p className={classes.resultPTag}><span className={classes.resultSpan}>About:</span> {this.props.userAbout}</p>
+            </div>
           </ExpansionPanelDetails>
-        <Divider />
-        <ExpansionPanelActions>
-          <Button size="small" onClick={this.props.sendFriendRequest} id={this.props.userBtnId}>Send Friend Request</Button>
-          <Icon>person_add</Icon>
-        </ExpansionPanelActions>
+          <Divider />
+          <ExpansionPanelActions>
+            <Button size="small" onClick={this.props.sendFriendRequest} id={this.props.userBtnId}>Send Friend Request</Button>
+            <Icon>person_add</Icon>
+          </ExpansionPanelActions>
         </ExpansionPanel>
         <br/>
       </div>

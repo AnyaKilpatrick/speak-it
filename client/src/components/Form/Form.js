@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./Form.css";
 
 const Form =props=> (
     <div className="row" id="formDiv">

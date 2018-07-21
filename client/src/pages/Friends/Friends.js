@@ -170,15 +170,6 @@ class Friends extends Component {
                 </Tooltip>
               )
         }
-        // else if(this.state.page === "friends"){
-        //     return(
-        //         <Tooltip id="tooltip-fab" title="Delete Friend">
-        //             <IconButton id={userId} aria-label="delete friend">
-        //                 <Icon>delete</Icon>
-        //             </IconButton>
-        //         </Tooltip>
-        //       )
-        // }
     }
     loadAvatar = (country) => {
         const countries = [...this.state.countries];

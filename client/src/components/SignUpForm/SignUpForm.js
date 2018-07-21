@@ -41,20 +41,11 @@ const styles = theme => ({
         marginLeft:10
     },
     myBtn: {
-        // marginTop:20,
-        // marginBottom: 20,
-        // background: "linear-gradient(45deg, rgba(92, 31, 94, 0.466) 30%, rgb(31, 30, 29) 90%)",
-        // boxShadow: "0 3px 5px 2px rgba(69, 29, 82, 0.3)",
         background:"rgba(0, 0, 0, 0.027)",
         color:"grey"
     },
     formControl: {
-        // margin: theme.spacing.unit,
-        // marginTop:22,
-        // minWidth: 120,
-        // maxWidth:230,
         width:"100%"
-        // marginLeft
     },
     selectEmpty: {
     marginTop: theme.spacing.unit * 2,
@@ -66,14 +57,8 @@ const styles = theme => ({
     link:{
         marginTop:5,
         textDecoration: "none",
-        color:"black",
-        // fontSize: 15
-    },
-    // btnGrid:{
-    //     paddingTop:0,
-    //     paddingBottom:0,
-    //     height:30
-    // }
+        color:"black"
+    }
   });
 
 class SignUpForm extends Component {

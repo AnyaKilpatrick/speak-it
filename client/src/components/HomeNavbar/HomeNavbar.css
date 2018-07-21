@@ -11,21 +11,8 @@
     overflow: scroll;
     background-image:url('./paperBackground.jpg')
 }
-/* @media screen and (max-width: 732px){
-    #mainContainer {
-        margin-left:0;
-        margin-right:0;
-        margin-top:65px;
-    }
-} */
-/* @media screen and (max-width: 728px){
-    #mainContainer {
-        margin-left:0;
-        margin-right:0;
-        margin-top:60px;
-    }
-}
-/*  */
+
+/* MEDIA QUERIES */
 @media screen and (max-width: 660px){
     #mainContainer {
         margin-left:0;

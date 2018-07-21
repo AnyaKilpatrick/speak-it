@@ -89,14 +89,4 @@ class App extends React.Component {
   }
 }
 
-// const App = () => (
-//   <Router>
-//     {/* getUser() ? loggedInRoutes() : loggedOutRoutes()}   */}
-//     <div className="wrap">
-//     <Route exact path="/" component={Login}/>
-//     <Route exact path="/app/signup" component={SignUp}/>
-//   </div>
-//   </Router>
-// )
-
 export default App;
